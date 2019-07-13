@@ -117,9 +117,22 @@
   <ItemGroup>
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="QuanLyChuyenBay.cpp" />
+    <ClCompile Include="QuanLyMayBay.cpp" />
+    <ClCompile Include="QuanLyVe.cpp" />
+    <ClCompile Include="ThongKeBaoBieu.cpp" />
+    <ClCompile Include="ThongTin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Console.h" />
+    <ClInclude Include="Funcs.h" />
+    <ClInclude Include="ObjectManagers.h" />
+    <ClInclude Include="Objects.h" />
+    <ClInclude Include="QuanLyChuyenBay.h" />
+    <ClInclude Include="QuanLyMayBay.h" />
+    <ClInclude Include="QuanLyVe.h" />
+    <ClInclude Include="ThongKeBaoBieu.h" />
+    <ClInclude Include="ThongTin.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

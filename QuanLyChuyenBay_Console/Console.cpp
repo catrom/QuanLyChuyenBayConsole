@@ -1,9 +1,17 @@
+#include <iostream>
 #include <stdio.h>
 #include <conio.h>
 #include "console.h"
 
+void SetCursorVisible(bool isVisible)
+{
+	CONSOLE_CURSOR_INFO Info;
+	Info.bVisible = isVisible;
+	Info.dwSize = 20;
+	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &Info);
+}
 
-int inputKey()
+int InputKey()
 {
 	if (_kbhit())
 	{
@@ -18,16 +26,12 @@ int inputKey()
 		return key;
 	}
 	else
-	{
-		return key_none;
-	}
+		return keyNone;
 
-	return key_none;
+	return keyNone;
 }
 
-
-//-------------------------Screen-------------------------
-void clrscr()
+void Clrscr()
 {
 	CONSOLE_SCREEN_BUFFER_INFO	csbiInfo;
 	HANDLE	hConsoleOut;
@@ -43,9 +47,13 @@ void clrscr()
 	SetConsoleCursorPosition(hConsoleOut, csbiInfo.dwCursorPosition);
 }
 
+void ClrLine(int line)
+{
+	GotoXY(0, line);
+	printf("\r                                                                                        ");
+}
 
-//screen: goto [x,y]
-void gotoXY(int column, int line)
+void GotoXY(int column, int line)
 {
 	COORD coord;
 	coord.X = column;
@@ -53,9 +61,7 @@ void gotoXY(int column, int line)
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
 
-
-//screen: get [x]
-int whereX()
+int WhereX()
 {
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 	if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi))
@@ -63,9 +69,7 @@ int whereX()
 	return -1;
 }
 
-
-//screen: get [y]
-int whereY()
+int WhereY()
 {
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 	if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi))
@@ -73,8 +77,7 @@ int whereY()
 	return -1;
 }
 
-
-void TextColor(int color)
+void SetColor(int color)
 {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
 }
