@@ -4,53 +4,7 @@
 #include <fstream>
 #include <string>
 
-struct DanhSachChuyenBay
-{
-	struct node
-	{
-		ChuyenBay data;
-		node *next;
-	};
 
-	node *head, *tail;
-
-	DanhSachChuyenBay()
-	{
-		head = NULL;
-		tail = NULL;
-	}
-
-	void insert(ChuyenBay value)
-	{
-		node *temp = new node;
-		temp->data = value;
-		temp->next = NULL;
-		if (head == NULL)
-		{
-			head = temp;
-			tail = temp;
-			temp = NULL;
-		}
-		else
-		{
-			tail->next = temp;
-			tail = temp;
-		}
-	}
-	
-	void delete_byposition(int pos)
-	{
-		node *current = new node;
-		node *previous = new node;
-		current = head;
-		for (int i = 1; i < pos; i++)
-		{
-			previous = current;
-			current = current->next;
-		}
-		previous->next = current->next;
-	}
-};
 
 struct DanhSachHanhKhach
 {

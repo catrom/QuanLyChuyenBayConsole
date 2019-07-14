@@ -27,7 +27,6 @@ int DanhSachMayBay::data_import()
 	in.open("data/MayBay.txt");
 
 	if (in.fail()) {
-		std::cout << "Load MayBay.txt failed!" << std::endl;
 		in.close();
 		return -1;
 	}
@@ -41,11 +40,9 @@ int DanhSachMayBay::data_import()
 		MayBay * maybay = new MayBay();
 
 		std::getline(in, line);
-		LineStandardize(line);
 		maybay->SoHieuMayBay = std::string(line);
 
 		std::getline(in, line);
-		LineStandardize(line);
 		maybay->LoaiMayBay = std::string(line);
 
 		in >> maybay->SoDay >> maybay->SoDong;
@@ -64,7 +61,6 @@ int DanhSachMayBay::data_export()
 	out.open("data/MayBay.txt", std::ios::trunc);
 
 	if (out.fail()) {
-		std::cout << "Export MayBay.txt failed!" << std::endl;
 		out.close();
 		return -1;
 	}
@@ -235,7 +231,10 @@ int DanhSachMayBay::Add()
 		if (!isSoHieuHopLe(maybay->SoHieuMayBay)) {
 			SetColor(colorError); cout << "ERROR: So hieu khong hop le!";
 		}
-		else break;
+		else {
+			LineStandardize(maybay->SoHieuMayBay);
+			break;
+		}
 	}
 
 	// Nhap loai
@@ -248,7 +247,10 @@ int DanhSachMayBay::Add()
 		if (!isLoaiHopLe(maybay->LoaiMayBay)) {
 			SetColor(colorError); cout << "ERROR: Loai khong hop le!";
 		}
-		else break;
+		else {
+			LineStandardize(maybay->LoaiMayBay);
+			break;
+		}
 	}
 
 	// Nhap so day
@@ -353,6 +355,7 @@ int DanhSachMayBay::Modify()
 							SetColor(colorError); cout << "ERROR: Loai khong hop le!";
 						}
 						else {
+							LineStandardize(maybay->LoaiMayBay);
 							ok = 1;
 							break;
 						}

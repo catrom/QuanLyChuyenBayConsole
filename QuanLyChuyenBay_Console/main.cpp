@@ -2,10 +2,11 @@
 #include <ctime>
 #include "Console.h"
 #include "QuanLyMayBay.h"
-
+#include "QuanLyChuyenBay.h"
 using namespace std;
 
 DanhSachMayBay * danhsachmaybay = DanhSachMayBay::getinstance();
+DanhSachChuyenBay * danhsachchuyenbay = DanhSachChuyenBay::getinstance();
 
 void MainMenu() {
 	while (1) {
@@ -63,6 +64,12 @@ int main() {
 
 	if (danhsachmaybay->data_import() == -1) {
 		SetColor(colorError); cout << "ERROR: Lay danh sach may bay that bai!" << endl;
+		Sleep(2000);
+	}
+
+	if (danhsachchuyenbay->data_import() == -1) {
+		SetColor(colorError); cout << "ERROR: Lay danh sach chuyen bay that bai!" << endl;
+		Sleep(2000);
 	}
 
 
