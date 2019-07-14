@@ -1,8 +1,6 @@
-#pragma once
-
-#include <iostream>
-#include <sstream>
+#include "Utilities.h"
 #include <string>
+#include <sstream>
 
 int StringToInteger(std::string s) {
 	int num;

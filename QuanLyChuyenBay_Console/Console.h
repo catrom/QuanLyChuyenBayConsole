@@ -2,12 +2,12 @@
 #ifndef _console_header
 #define _console_header
 
-#define colorHeader1   10
-#define colorHeader2   11
-#define colorHeader3   14
+#define colorGreen   10
+#define colorCyan   11
+#define colorYellow   14
 #define colorDefault   7
-#define colorChoosen 15
-#define colorError 12
+#define colorWhite 15
+#define colorRed 12
 
 #define keyUp			1072
 #define keyDown			1080

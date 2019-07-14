@@ -1,5 +1,5 @@
 ﻿#include "QuanLyMayBay.h"
-#include "Funcs.h"
+#include "Utilities.h"
 #include "Console.h"
 
 #include <fstream>
@@ -131,18 +131,28 @@ bool DanhSachMayBay::isSoDongHopLe(string str)
 	return true;
 }
 
+MayBay * DanhSachMayBay::getBy_SoHieuMayBay(std::string sohieu)
+{
+	for (int i = 0; i < SoLuongMayBay; i++) {
+		if (DanhSach[i]->SoHieuMayBay == sohieu)
+			return DanhSach[i];
+	}
+
+	return NULL;
+}
+
 int DanhSachMayBay::Menu()
 {
 	while (1) {
 		Clrscr();
 		ShowList();
 
-		GotoXY(0, 0); SetColor(colorHeader1); cout << "QUAN LY MAY BAY";
-		GotoXY(5, 2); SetColor(colorHeader2); cout << "1. Them may bay";
-		GotoXY(5, 3); SetColor(colorHeader2); cout << "2. Sua may bay";
-		GotoXY(5, 4); SetColor(colorHeader2); cout << "3. Xoa may bay";
-		GotoXY(5, 5); SetColor(colorHeader2); cout << "4. Xuat danh sach";
-		GotoXY(5, 6); SetColor(colorHeader2); cout << "5. Tro ve" << endl << endl;
+		GotoXY(0, 0); SetColor(colorGreen); cout << "QUAN LY MAY BAY";
+		GotoXY(5, 2); SetColor(colorCyan); cout << "1. Them may bay";
+		GotoXY(5, 3); SetColor(colorCyan); cout << "2. Hieu chinh may bay";
+		GotoXY(5, 4); SetColor(colorCyan); cout << "3. Xoa may bay";
+		GotoXY(5, 5); SetColor(colorCyan); cout << "4. Xuat danh sach";
+		GotoXY(5, 6); SetColor(colorCyan); cout << "5. Tro ve" << endl << endl;
 
 		int choose = -1;
 
@@ -150,7 +160,7 @@ int DanhSachMayBay::Menu()
 			int rollBack = 0;
 
 			SetCursorVisible(1);
-			ClrLine(8); GotoXY(0, 8); SetColor(colorChoosen); cout << "-> ";
+			ClrLine(8); GotoXY(0, 8); SetColor(colorWhite); cout << "-> ";
 			cin >> choose;
 
 			switch (choose)
@@ -178,7 +188,7 @@ int DanhSachMayBay::Menu()
 			case 5:
 				return -1;
 			default:
-				SetColor(colorError); cout << "ERROR: Input khong hop le!" << endl;
+				SetColor(colorRed); cout << "ERROR: Input khong hop le!" << endl;
 				break;
 			}
 
@@ -191,7 +201,7 @@ int DanhSachMayBay::Menu()
 void DanhSachMayBay::ShowList()
 {
 	int lineStart = 12;
-	GotoXY(5, lineStart); SetColor(colorHeader3); cout << ">> Danh sach may bay:";
+	GotoXY(5, lineStart); SetColor(colorYellow); cout << ">> Danh sach may bay:";
 
 	// print header
 	SetColor(colorDefault);
@@ -217,19 +227,19 @@ void DanhSachMayBay::ShowList()
 int DanhSachMayBay::Add()
 {
 	Clrscr();
-	GotoXY(0, 0); SetColor(colorHeader1); cout << "THEM MAY BAY";
+	GotoXY(0, 0); SetColor(colorGreen); cout << "THEM MAY BAY";
 	
 	MayBay * maybay = new MayBay();
 
 	// Nhap so hieu
-	ClrLine(2); GotoXY(5, 2); SetColor(colorChoosen); cout << "* Nhap so hieu may bay: ";
+	ClrLine(2); GotoXY(5, 2); SetColor(colorWhite); cout << "* Nhap so hieu may bay: ";
 	while(1) {
 		ClrLine(3);
-		GotoXY(10, 3); SetColor(colorHeader3);
+		GotoXY(10, 3); SetColor(colorYellow);
 		cin.ignore(); getline(cin, maybay->SoHieuMayBay);
 
 		if (!isSoHieuHopLe(maybay->SoHieuMayBay)) {
-			SetColor(colorError); cout << "ERROR: So hieu khong hop le!";
+			SetColor(colorRed); cout << "ERROR: So hieu khong hop le!";
 		}
 		else {
 			LineStandardize(maybay->SoHieuMayBay);
@@ -238,14 +248,14 @@ int DanhSachMayBay::Add()
 	}
 
 	// Nhap loai
-	ClrLine(4); GotoXY(5, 4); SetColor(colorChoosen); cout << "* Nhap loai may bay: ";
+	ClrLine(4); GotoXY(5, 4); SetColor(colorWhite); cout << "* Nhap loai may bay: ";
 	while (1) {
 		ClrLine(5);
-		GotoXY(10, 5); SetColor(colorHeader3);
+		GotoXY(10, 5); SetColor(colorYellow);
 		getline(cin, maybay->LoaiMayBay);
 
 		if (!isLoaiHopLe(maybay->LoaiMayBay)) {
-			SetColor(colorError); cout << "ERROR: Loai khong hop le!";
+			SetColor(colorRed); cout << "ERROR: Loai khong hop le!";
 		}
 		else {
 			LineStandardize(maybay->LoaiMayBay);
@@ -254,15 +264,15 @@ int DanhSachMayBay::Add()
 	}
 
 	// Nhap so day
-	ClrLine(6); GotoXY(5, 6); SetColor(colorChoosen); cout << "* Nhap so day: ";
+	ClrLine(6); GotoXY(5, 6); SetColor(colorWhite); cout << "* Nhap so day: ";
 	while (1) {
 		string soday;
 		ClrLine(7);
-		GotoXY(10, 7); SetColor(colorHeader3);
+		GotoXY(10, 7); SetColor(colorYellow);
 		getline(cin, soday);
 
 		if (!isSoDayHopLe(soday)) {
-			SetColor(colorError); cout << "ERROR: So day khong hop le!";
+			SetColor(colorRed); cout << "ERROR: So day khong hop le!";
 		}
 		else {
 			maybay->SoDay = StringToInteger(soday);
@@ -271,15 +281,15 @@ int DanhSachMayBay::Add()
 	}
 
 	// Nhap so dong
-	ClrLine(8); GotoXY(5, 8); SetColor(colorChoosen); cout << "* Nhap so dong: ";
+	ClrLine(8); GotoXY(5, 8); SetColor(colorWhite); cout << "* Nhap so dong: ";
 	while (1) {
 		string sodong;
 		ClrLine(9);
-		GotoXY(10, 9); SetColor(colorHeader3);
+		GotoXY(10, 9); SetColor(colorYellow);
 		getline(cin, sodong);
 
 		if (!isSoDongHopLe(sodong)) {
-			SetColor(colorError); cout << "ERROR: So dong khong hop le!";
+			SetColor(colorRed); cout << "ERROR: So dong khong hop le!";
 		}
 		else {
 			maybay->SoDong = StringToInteger(sodong);
@@ -288,27 +298,27 @@ int DanhSachMayBay::Add()
 	}
 
 	ClrLine(10);
-	GotoXY(5, 11); SetColor(colorHeader2); cout << "1. Luu";
-	GotoXY(25, 11); SetColor(colorHeader2); cout << "2. Tro ve";
+	GotoXY(5, 11); SetColor(colorCyan); cout << "1. Luu";
+	GotoXY(25, 11); SetColor(colorCyan); cout << "2. Tro ve";
 
 	int choose = -1;
 
 	while (1) {
 		SetCursorVisible(1);
-		ClrLine(13); GotoXY(0, 13); SetColor(colorChoosen); cout << "-> ";
+		ClrLine(13); GotoXY(0, 13); SetColor(colorWhite); cout << "-> ";
 		cin >> choose;
 
 		switch (choose)
 		{
 		case 1:
 			add(maybay);
-			GotoXY(0, 14); SetColor(colorHeader2); cout << "INFO: Them thanh cong!";
+			GotoXY(0, 14); SetColor(colorCyan); cout << "INFO: Them thanh cong!";
 			Sleep(2000);
 			return -1;
 		case 2:
 			return -1;
 		default:
-			SetColor(colorError); cout << "ERROR: Input khong hop le!" << endl;
+			SetColor(colorRed); cout << "ERROR: Input khong hop le!" << endl;
 			break;
 		}
 	}
@@ -319,15 +329,15 @@ int DanhSachMayBay::Modify()
 	int choose = -1;
 
 	while (1) {
-		ClrLine(9); GotoXY(0, 9); SetColor(colorChoosen); cout << "Nhap so thu tu trong danh sach: ";
-		SetColor(colorHeader3); cin >> choose;
+		ClrLine(9); GotoXY(0, 9); SetColor(colorWhite); cout << "Nhap so thu tu trong danh sach: ";
+		SetColor(colorYellow); cin >> choose;
 
 		if (choose < 1 || choose > SoLuongMayBay) {
-			SetColor(colorError); cout << "ERROR: Input khong hop le!" << endl;
+			SetColor(colorRed); cout << "ERROR: Input khong hop le!" << endl;
 		}
 		else {
 			Clrscr();
-			GotoXY(0, 0); SetColor(colorHeader1); cout << "HIEU CHINH MAY BAY";
+			GotoXY(0, 0); SetColor(colorGreen); cout << "HIEU CHINH MAY BAY";
 			int index = choose - 1;
 
 			MayBay * maybay = new MayBay();
@@ -336,11 +346,11 @@ int DanhSachMayBay::Modify()
 			maybay->SoDay = DanhSach[index]->SoDay;
 			maybay->SoDong = DanhSach[index]->SoDong;
 
-			ClrLine(2); GotoXY(5, 2); SetColor(colorChoosen); cout << "So hieu may bay: " << maybay->SoHieuMayBay;
+			ClrLine(2); GotoXY(5, 2); SetColor(colorWhite); cout << "So hieu may bay: " << maybay->SoHieuMayBay;
 
 			// Nhap loai
-			ClrLine(4); GotoXY(5, 4); SetColor(colorChoosen); cout << "Loai may bay: " << maybay->LoaiMayBay;
-			ClrLine(5); GotoXY(5, 5); SetColor(colorHeader2); cout << "Hieu chinh Loai may bay? (Y/N) ";
+			ClrLine(4); GotoXY(5, 4); SetColor(colorWhite); cout << "Loai may bay: " << maybay->LoaiMayBay;
+			ClrLine(5); GotoXY(5, 5); SetColor(colorCyan); cout << "Hieu chinh Loai may bay? (Y/N) ";
 
 			while (1) {
 				char c = InputKey();
@@ -348,11 +358,11 @@ int DanhSachMayBay::Modify()
 
 				if (c == 'Y' || c == 'y') {
 					while (1) {
-						ClrLine(5); GotoXY(5, 5); SetColor(colorChoosen); cout << "* Nhap loai may bay: ";
-						SetColor(colorHeader3); getline(cin, maybay->LoaiMayBay);
+						ClrLine(5); GotoXY(5, 5); SetColor(colorWhite); cout << "* Nhap loai may bay: ";
+						SetColor(colorYellow); getline(cin, maybay->LoaiMayBay);
 
 						if (!isLoaiHopLe(maybay->LoaiMayBay)) {
-							SetColor(colorError); cout << "ERROR: Loai khong hop le!";
+							SetColor(colorRed); cout << "ERROR: Loai khong hop le!";
 						}
 						else {
 							LineStandardize(maybay->LoaiMayBay);
@@ -371,8 +381,8 @@ int DanhSachMayBay::Modify()
 			}
 
 			// Nhap so day
-			ClrLine(6); GotoXY(5, 6); SetColor(colorChoosen); cout << "So day: " << maybay->SoDay;
-			ClrLine(7); GotoXY(5, 7); SetColor(colorHeader2); cout << "Hieu chinh So day? (Y/N) ";
+			ClrLine(6); GotoXY(5, 6); SetColor(colorWhite); cout << "So day: " << maybay->SoDay;
+			ClrLine(7); GotoXY(5, 7); SetColor(colorCyan); cout << "Hieu chinh So day? (Y/N) ";
 
 			while (1) {
 				char c = InputKey();
@@ -382,11 +392,11 @@ int DanhSachMayBay::Modify()
 					while (1) {
 						string soday;
 
-						ClrLine(7); GotoXY(5, 7); SetColor(colorChoosen); cout << "* Nhap so day: ";
-						SetColor(colorHeader3); getline(cin, soday);
+						ClrLine(7); GotoXY(5, 7); SetColor(colorWhite); cout << "* Nhap so day: ";
+						SetColor(colorYellow); getline(cin, soday);
 
 						if (!isSoDayHopLe(soday)) {
-							SetColor(colorError); cout << "ERROR: So day khong hop le!";
+							SetColor(colorRed); cout << "ERROR: So day khong hop le!";
 						}
 						else {
 							maybay->SoDay = StringToInteger(soday);
@@ -405,8 +415,8 @@ int DanhSachMayBay::Modify()
 			}
 
 			// Nhap so dong
-			ClrLine(8); GotoXY(5, 8); SetColor(colorChoosen); cout << "So dong: " << maybay->SoDong;
-			ClrLine(9); GotoXY(5, 9); SetColor(colorHeader2); cout << "Hieu chinh So dong? (Y/N) ";
+			ClrLine(8); GotoXY(5, 8); SetColor(colorWhite); cout << "So dong: " << maybay->SoDong;
+			ClrLine(9); GotoXY(5, 9); SetColor(colorCyan); cout << "Hieu chinh So dong? (Y/N) ";
 
 			while (1) {
 				char c = InputKey();
@@ -416,11 +426,11 @@ int DanhSachMayBay::Modify()
 					while (1) {
 						string sodong;
 
-						ClrLine(9); GotoXY(5, 9); SetColor(colorChoosen); cout << "* Nhap so dong: ";
-						SetColor(colorHeader3); getline(cin, sodong);
+						ClrLine(9); GotoXY(5, 9); SetColor(colorWhite); cout << "* Nhap so dong: ";
+						SetColor(colorYellow); getline(cin, sodong);
 
 						if (!isSoDongHopLe(sodong)) {
-							SetColor(colorError); cout << "ERROR: So dong khong hop le!";
+							SetColor(colorRed); cout << "ERROR: So dong khong hop le!";
 						}
 						else {
 							maybay->SoDong = StringToInteger(sodong);
@@ -439,25 +449,25 @@ int DanhSachMayBay::Modify()
 			}
 
 			ClrLine(10);
-			GotoXY(5, 11); SetColor(colorHeader2); cout << "1. Luu";
-			GotoXY(25, 11); SetColor(colorHeader2); cout << "2. Tro ve";
+			GotoXY(5, 11); SetColor(colorCyan); cout << "1. Luu";
+			GotoXY(25, 11); SetColor(colorCyan); cout << "2. Tro ve";
 
 			while (1) {
 				SetCursorVisible(1);
-				ClrLine(13); GotoXY(0, 13); SetColor(colorChoosen); cout << "-> ";
+				ClrLine(13); GotoXY(0, 13); SetColor(colorWhite); cout << "-> ";
 				cin >> choose;
 
 				switch (choose)
 				{
 				case 1:
 					update_byposition(index, maybay);
-					GotoXY(0, 14); SetColor(colorHeader2); cout << "INFO: Hieu chinh thanh cong!";
+					GotoXY(0, 14); SetColor(colorCyan); cout << "INFO: Hieu chinh thanh cong!";
 					Sleep(2000);
 					return -1;
 				case 2:
 					return -1;
 				default:
-					SetColor(colorError); cout << "ERROR: Input khong hop le!" << endl;
+					SetColor(colorRed); cout << "ERROR: Input khong hop le!" << endl;
 					break;
 				}
 			}
@@ -470,22 +480,22 @@ int DanhSachMayBay::Delete()
 	int choose = -1;
 
 	while (1) {
-		ClrLine(9); GotoXY(0, 9); SetColor(colorChoosen); cout << "Nhap so thu tu trong danh sach: ";
-		SetColor(colorHeader3); cin >> choose;
+		ClrLine(9); GotoXY(0, 9); SetColor(colorWhite); cout << "Nhap so thu tu trong danh sach: ";
+		SetColor(colorYellow); cin >> choose;
 
 		if (choose < 1 || choose > SoLuongMayBay) {
-			SetColor(colorError); cout << "ERROR: Input khong hop le!" << endl;
+			SetColor(colorRed); cout << "ERROR: Input khong hop le!" << endl;
 		}
 		else {
 			int index = choose - 1;
-			ClrLine(10); GotoXY(0, 10); SetColor(colorHeader2); cout << "Ban co chac chan xoa? (Y/N) ";
+			ClrLine(10); GotoXY(0, 10); SetColor(colorCyan); cout << "Ban co chac chan xoa? (Y/N) ";
 
 			while (1) {
 				char c = InputKey();
 
 				if (c == 'Y' || c == 'y') {
 					delete_byposition(index);
-					ClrLine(10); GotoXY(0, 10); SetColor(colorHeader2); cout << "INFO: Xoa thanh cong!";
+					ClrLine(10); GotoXY(0, 10); SetColor(colorCyan); cout << "INFO: Xoa thanh cong!";
 					Sleep(2000);
 					return -1;
 				}
@@ -501,13 +511,13 @@ int DanhSachMayBay::Delete()
 int DanhSachMayBay::Export()
 {
 	if (data_export() == -1) {
-		SetColor(colorError); cout << "ERROR: Loi xuat file!" << endl;
+		SetColor(colorRed); cout << "ERROR: Loi xuat file!" << endl;
 		Sleep(2000);
 		return -1;
 	}
 	else {
-		SetColor(colorHeader2); cout << "INFO: Xuat danh sach thanh cong ";
-		SetColor(colorHeader3); cout << "...data/MayBay.txt";
+		SetColor(colorCyan); cout << "INFO: Xuat danh sach thanh cong ";
+		SetColor(colorYellow); cout << "...data/MayBay.txt";
 		Sleep(2000);
 		return -1;
 	}

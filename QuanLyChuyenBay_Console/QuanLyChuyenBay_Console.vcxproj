@@ -76,6 +76,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -122,10 +123,10 @@
     <ClCompile Include="QuanLyVe.cpp" />
     <ClCompile Include="ThongKeBaoBieu.cpp" />
     <ClCompile Include="ThongTin.cpp" />
+    <ClCompile Include="Utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Console.h" />
-    <ClInclude Include="Funcs.h" />
     <ClInclude Include="ObjectManagers.h" />
     <ClInclude Include="Objects.h" />
     <ClInclude Include="QuanLyChuyenBay.h" />
@@ -133,6 +134,7 @@
     <ClInclude Include="QuanLyVe.h" />
     <ClInclude Include="ThongKeBaoBieu.h" />
     <ClInclude Include="ThongTin.h" />
+    <ClInclude Include="Utilities.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

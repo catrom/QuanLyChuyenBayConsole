@@ -1,3 +1,4 @@
+#pragma once
 #include "Objects.h"
 
 struct DanhSachMayBay
@@ -22,6 +23,8 @@ public:
 	bool isLoaiHopLe(std::string str);
 	bool isSoDayHopLe(std::string str);
 	bool isSoDongHopLe(std::string str);
+
+	MayBay * getBy_SoHieuMayBay(std::string sohieu);
 
 	// display
 	int Menu();
