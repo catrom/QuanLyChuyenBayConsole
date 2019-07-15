@@ -129,12 +129,31 @@ void DanhSachVe::remove(std::string machuyenbay, long soCMND)
 				delete current;
 			}
 
+			SoLuongVe--;
 			return;
 		}
 		
 		previous = current;
 		current = current->next;
 	}
+}
+
+Ve * DanhSachVe::find(std::string machuyenbay, long soCMND)
+{
+	node_Ve * temp = new node_Ve;
+	temp = head;
+
+	while (temp != NULL) {
+		if (temp->data.MaChuyenBay == machuyenbay && temp->data.SoCMND == soCMND) {
+			Ve * result = new Ve;
+			*result = temp->data;
+			return result;
+		}
+
+		temp = temp->next;
+	}
+
+	return NULL;
 }
 
 int DanhSachVe::KiemTraMaChuyenBay(std::string str)
@@ -184,9 +203,6 @@ int DanhSachVe::KiemTraSoCMND(std::string str)
 	// hien thi thong tin
 	ShowInfoHanhKhach(hanhkhach);
 
-	// kiem tra da mua ve hay chua
-
-
 	return 1;
 }
 
@@ -196,8 +212,13 @@ int DanhSachVe::KiemTraDieuKienDatVe(std::string machuyenbay, long soCMND)
 	temp = head;
 
 	while (temp != NULL) {
-		if (temp->data.MaChuyenBay == machuyenbay && temp->data.SoCMND == soCMND)
+		if (temp->data.MaChuyenBay == machuyenbay && temp->data.SoCMND == soCMND) { // da dat ve roi
+			Ve * ve = new Ve;
+			*ve = temp->data;
+			ShowInfoVe(ve);
+
 			return -1;
+		}
 
 		temp = temp->next;
 	}
@@ -507,7 +528,71 @@ int DanhSachVe::Add()
 
 int DanhSachVe::Remove()
 {
-	return 0;
+	Clrscr();
+	cin.ignore();
+	GotoXY(0, 0); SetColor(colorGreen); cout << "HUY VE";
+
+	string machuyenbay;
+	string soCMND;
+	int ketqua;
+
+	// Nhap ma chuyen bay
+	ClrLine(2); GotoXY(5, 2); SetColor(colorWhite); cout << "* Nhap ma chuyen bay: ";
+	while (1) {
+		ClrLine(3);
+		GotoXY(10, 3); SetColor(colorYellow);
+		getline(cin, machuyenbay);
+
+		ketqua = KiemTraMaChuyenBay(machuyenbay);
+
+		if (ketqua) {
+			ClrLine(4);
+			break;
+		}
+	}
+
+	// Nhap so CMND 
+	GotoXY(5, 5); SetColor(colorWhite); cout << "* Nhap so CMND cua hanh khach: ";
+	while (1) {
+		ClrLine(6);
+		GotoXY(10, 6); SetColor(colorYellow);
+		getline(cin, soCMND);
+
+		ketqua = KiemTraSoCMND(soCMND);
+
+		if (ketqua) {
+			ClrLine(7);
+			break;
+		}
+	}
+
+	Ve * ve = find(machuyenbay, StringToInteger(soCMND));
+
+	if (ve == NULL) { // ve khong ton tai
+		GotoXY(0, 7); SetColor(colorRed); cout << "ERROR: Ve khong ton tai!";
+		getchar();
+		return -1;
+	}
+	else {
+		ShowInfoVe(ve);
+	}
+
+	ClrLine(9); GotoXY(0, 9); SetColor(colorCyan); cout << "Xac nhan huy? (Y/N) ";
+
+	while (1) {
+		char c = InputKey();
+
+		if (c == 'Y' || c == 'y') {
+			remove(machuyenbay, StringToInteger(soCMND));
+			ClrLine(10); GotoXY(0, 10); SetColor(colorCyan); cout << "INFO: Xoa thanh cong!";
+			Sleep(2000);
+			return -1;
+		}
+		else if (c == 'N' || c == 'n') {
+			cin.ignore();
+			return -1;
+		}
+	}
 }
 
 int DanhSachVe::Export()
@@ -528,28 +613,40 @@ int DanhSachVe::Export()
 
 void DanhSachVe::ShowInfoChuyenBay(ChuyenBay * chuyenbay)
 {
+	for (int i = 5; i < 95; i++) {
+		SetColor(colorDefault); GotoXY(i, 30); putchar(205);
+	}
+
 	DanhSachChuyenBay * dschuyenbay = DanhSachChuyenBay::getinstance();
-	GotoXY(5, 30); SetColor(colorYellow); cout << "Thong tin chuyen bay: ";
-	GotoXY(5, 31); SetColor(colorDefault); cout << "   Ma chuyen bay: " << chuyenbay->MaChuyenBay;
-	GotoXY(5, 32); SetColor(colorDefault); cout << "   So hieu may bay: " << chuyenbay->SoHieuMayBay;
-	GotoXY(5, 33); SetColor(colorDefault); cout << "   San bay den: " << chuyenbay->SanBayDen;
-	GotoXY(5, 34); SetColor(colorDefault); cout << "   Ngay khoi hanh: "; dschuyenbay->ShowTime(chuyenbay->NgayKhoiHanh);
-	GotoXY(5, 35); SetColor(colorDefault); cout << "   Trang thai: "; dschuyenbay->ShowState(chuyenbay->TrangThai);
+	GotoXY(5, 31); SetColor(colorYellow); cout << "Thong tin chuyen bay: ";
+	GotoXY(5, 32); SetColor(colorDefault); cout << "   Ma chuyen bay: " << chuyenbay->MaChuyenBay;
+	GotoXY(5, 33); SetColor(colorDefault); cout << "   So hieu may bay: " << chuyenbay->SoHieuMayBay;
+	GotoXY(5, 34); SetColor(colorDefault); cout << "   San bay den: " << chuyenbay->SanBayDen;
+	GotoXY(5, 35); SetColor(colorDefault); cout << "   Ngay khoi hanh: "; dschuyenbay->ShowTime(chuyenbay->NgayKhoiHanh);
+	GotoXY(5, 36); SetColor(colorDefault); cout << "   Trang thai: "; dschuyenbay->ShowState(chuyenbay->TrangThai);
 }
 
 void DanhSachVe::ShowInfoHanhKhach(HanhKhach * hanhkhach)
 {
-	GotoXY(45, 30); SetColor(colorYellow); cout << "Thong tin hanh khach: ";
-	GotoXY(45, 31); SetColor(colorDefault); cout << "   So CMND: " << hanhkhach->SoCMND;
-	GotoXY(45, 32); SetColor(colorDefault); cout << "   Ho: " << hanhkhach->Ho;
-	GotoXY(45, 33); SetColor(colorDefault); cout << "   Ten: " << hanhkhach->Ten;
-	GotoXY(45, 34); SetColor(colorDefault); cout << "   Phai: " << hanhkhach->Phai;
+	for (int i = 5; i < 95; i++) {
+		SetColor(colorDefault); GotoXY(i, 30); putchar(205);
+	}
+
+	GotoXY(50, 31); SetColor(colorYellow); cout << "Thong tin hanh khach: ";
+	GotoXY(50, 32); SetColor(colorDefault); cout << "   So CMND: " << hanhkhach->SoCMND;
+	GotoXY(50, 33); SetColor(colorDefault); cout << "   Ho: " << hanhkhach->Ho;
+	GotoXY(50, 34); SetColor(colorDefault); cout << "   Ten: " << hanhkhach->Ten;
+	GotoXY(50, 35); SetColor(colorDefault); cout << "   Phai: " << hanhkhach->Phai;
 }
 
 void DanhSachVe::ShowInfoVe(Ve * ve)
 {
-	GotoXY(70, 2); SetColor(colorYellow); cout << "Thong tin ve: ";
-	GotoXY(70, 3); SetColor(colorDefault); cout << "   Ma chuyen bay: " << ve->MaChuyenBay;
-	GotoXY(70, 4); SetColor(colorDefault); cout << "   So CMND: " << ve->SoCMND;
-	GotoXY(70, 5); SetColor(colorDefault); cout << "   Vi tri: " << char(ve->ViTriDay - 1 + 'A') << ve->ViTriHang;
+	for (int i = 5; i < 95; i++) {
+		SetColor(colorDefault); GotoXY(i, 24); putchar(205);
+	}
+
+	GotoXY(5, 25); SetColor(colorYellow); cout << "Thong tin ve: ";
+	GotoXY(5, 26); SetColor(colorDefault); cout << "   Ma chuyen bay: " << ve->MaChuyenBay;
+	GotoXY(5, 27); SetColor(colorDefault); cout << "   So CMND: " << ve->SoCMND;
+	GotoXY(5, 28); SetColor(colorDefault); cout << "   Vi tri: " << char(ve->ViTriDay - 1 + 'A') << ve->ViTriHang;
 }

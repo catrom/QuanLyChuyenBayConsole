@@ -23,6 +23,7 @@ public:
 
 	void add(Ve value);
 	void remove(std::string machuyenbay, long soCMND);
+	Ve * find(std::string machuyenbay, long soCMND);
 
 	int KiemTraMaChuyenBay(std::string str);
 	int KiemTraSoCMND(std::string str);
