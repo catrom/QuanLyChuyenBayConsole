@@ -1,12 +1,4 @@
 ﻿#include "QuanLyMayBay.h"
-#include "Utilities.h"
-#include "Console.h"
-
-#include <fstream>
-#include <string>
-#include <iostream>
-using namespace std;
-
 
 DanhSachMayBay * DanhSachMayBay::_instance = NULL;
 

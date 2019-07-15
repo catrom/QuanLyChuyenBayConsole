@@ -116,7 +116,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Console.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="QuanLyChuyenBay.cpp" />
     <ClCompile Include="QuanLyHanhKhach.cpp" />
@@ -127,7 +126,6 @@
     <ClCompile Include="Utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Console.h" />
     <ClInclude Include="Objects.h" />
     <ClInclude Include="QuanLyChuyenBay.h" />
     <ClInclude Include="QuanLyHanhKhach.h" />

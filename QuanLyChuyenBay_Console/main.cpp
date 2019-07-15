@@ -1,12 +1,8 @@
-#include <iostream>
-#include <ctime>
-#include "Console.h"
 #include "QuanLyMayBay.h"
 #include "QuanLyChuyenBay.h"
 #include "QuanLyHanhKhach.h"
 #include "QuanLyVe.h"
-
-using namespace std;
+#include "Utilities.h"
 
 DanhSachMayBay * danhsachmaybay = DanhSachMayBay::getinstance();
 DanhSachChuyenBay * danhsachchuyenbay = DanhSachChuyenBay::getinstance();
@@ -23,7 +19,7 @@ void MainMenu() {
 		GotoXY(5, 2); SetColor(colorCyan); cout << "1. Quan ly may bay";
 		GotoXY(5, 3); SetColor(colorCyan); cout << "2. Quan ly chuyen bay";
 		GotoXY(5, 4); SetColor(colorCyan); cout << "3. Quan ly ve";
-		GotoXY(5, 5); SetColor(colorCyan); cout << "4. Thong ke - bao bieu";
+		GotoXY(5, 5); SetColor(colorCyan); cout << "4. Bao cao - Thong ke";
 		GotoXY(5, 6); SetColor(colorCyan); cout << "5. Thong tin";
 		GotoXY(5, 7); SetColor(colorCyan); cout << "6. Thoat";
 

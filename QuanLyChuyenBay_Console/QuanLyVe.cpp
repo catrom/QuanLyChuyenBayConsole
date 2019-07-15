@@ -2,14 +2,6 @@
 #include "QuanLyHanhKhach.h"
 #include "QuanLyMayBay.h"
 #include "QuanLyVe.h"
-#include "Console.h"
-#include "Utilities.h"
-
-#include <fstream>
-#include <string>
-#include <iostream>
-#include <ctime>
-using namespace std;
 
 DanhSachVe * DanhSachVe::_instance = NULL;
 

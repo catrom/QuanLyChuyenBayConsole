@@ -1,13 +1,5 @@
 ﻿#include "QuanLyChuyenBay.h"
 #include "QuanLyMayBay.h"
-#include "Console.h"
-#include "Utilities.h"
-
-#include <fstream>
-#include <string>
-#include <iostream>
-#include <ctime>
-using namespace std;
 
 DanhSachChuyenBay * DanhSachChuyenBay::_instance = NULL;
 

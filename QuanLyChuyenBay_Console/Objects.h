@@ -1,7 +1,5 @@
 ﻿#pragma once
-
-#include <time.h>
-#include <iostream>
+#include "Utilities.h"
 
 struct MayBay
 {

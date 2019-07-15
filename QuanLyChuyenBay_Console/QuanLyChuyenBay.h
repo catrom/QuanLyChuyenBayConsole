@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Objects.h"
 
 struct node_ChuyenBay

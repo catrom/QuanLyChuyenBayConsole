@@ -1,9 +1,4 @@
 #include "QuanLyHanhKhach.h"
-#include "Utilities.h"
-
-#include <fstream>
-#include <string>
-#include <iostream>
 
 DanhSachHanhKhach * DanhSachHanhKhach::_instance = NULL;
 
