@@ -1,0 +1,8 @@
+DANH SACH HANH KHACH THUOC CHUYEN BAY #CB003
+Ngay khoi hanh: 2019/7/21 10:0
+Noi den: Ha Noi
+
+STT	SOVE	SO CMND		HOTEN			PHAI
+1	G4	444444444	Shigeo Tokuda	Nam
+2	A6	555555555	Edward Ass	Nam
+3	A4	333333333	Nguyen Cong Phuong	Nam

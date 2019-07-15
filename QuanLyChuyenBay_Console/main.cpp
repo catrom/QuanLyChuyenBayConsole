@@ -2,12 +2,13 @@
 #include "QuanLyChuyenBay.h"
 #include "QuanLyHanhKhach.h"
 #include "QuanLyVe.h"
-#include "Utilities.h"
+#include "ThongKeBaoBieu.h"
 
 DanhSachMayBay * danhsachmaybay = DanhSachMayBay::getinstance();
 DanhSachChuyenBay * danhsachchuyenbay = DanhSachChuyenBay::getinstance();
 DanhSachHanhKhach * danhsachhanhkhach = DanhSachHanhKhach::getinstance();
 DanhSachVe * danhsachve = DanhSachVe::getinstance();
+ThongKeBaoBieu * thongke = new ThongKeBaoBieu;
 
 void MainMenu() {
 	while (1) {
@@ -48,7 +49,10 @@ void MainMenu() {
 					break;
 				}
 			case 4:
-				break;
+				if (thongke->Menu() == -1) {
+					rollBack = 1;
+					break;
+				}
 			case 5:
 				break;
 			case 6:

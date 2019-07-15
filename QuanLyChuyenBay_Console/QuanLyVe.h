@@ -24,6 +24,7 @@ public:
 	void add(Ve value);
 	void remove(std::string machuyenbay, long soCMND);
 	Ve * find(std::string machuyenbay, long soCMND);
+	std::vector<Ve> getAll(std::string machuyenbay);
 
 	int KiemTraMaChuyenBay(std::string str);
 	int KiemTraSoCMND(std::string str);

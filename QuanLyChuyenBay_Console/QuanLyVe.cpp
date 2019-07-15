@@ -148,6 +148,23 @@ Ve * DanhSachVe::find(std::string machuyenbay, long soCMND)
 	return NULL;
 }
 
+std::vector<Ve> DanhSachVe::getAll(std::string machuyenbay)
+{
+	vector<Ve> result;
+
+	node_Ve * temp = new node_Ve;
+	temp = head;
+
+	while (temp != NULL) {
+		if (temp->data.MaChuyenBay == machuyenbay) 
+			result.push_back(temp->data);
+		
+		temp = temp->next;
+	}
+
+	return result;
+}
+
 int DanhSachVe::KiemTraMaChuyenBay(std::string str)
 {
 	if (!(str.size() > 0 && str.size() <= 15)) {
