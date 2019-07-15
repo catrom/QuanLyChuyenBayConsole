@@ -3,10 +3,15 @@
 #include "Console.h"
 #include "QuanLyMayBay.h"
 #include "QuanLyChuyenBay.h"
+#include "QuanLyHanhKhach.h"
+#include "QuanLyVe.h"
+
 using namespace std;
 
 DanhSachMayBay * danhsachmaybay = DanhSachMayBay::getinstance();
 DanhSachChuyenBay * danhsachchuyenbay = DanhSachChuyenBay::getinstance();
+DanhSachHanhKhach * danhsachhanhkhach = DanhSachHanhKhach::getinstance();
+DanhSachVe * danhsachve = DanhSachVe::getinstance();
 
 void MainMenu() {
 	while (1) {
@@ -42,7 +47,10 @@ void MainMenu() {
 					break;
 				}
 			case 3:
-				break;
+				if (danhsachve->Menu() == -1) {
+					rollBack = 1;
+					break;
+				}
 			case 4:
 				break;
 			case 5:
@@ -72,6 +80,16 @@ int main() {
 
 	if (danhsachchuyenbay->data_import() == -1) {
 		SetColor(colorRed); cout << "ERROR: Lay danh sach chuyen bay that bai!" << endl;
+		Sleep(2000);
+	}
+
+	if (danhsachhanhkhach->data_import() == -1) {
+		SetColor(colorRed); cout << "ERROR: Lay danh sach hanh khach that bai!" << endl;
+		Sleep(2000);
+	}
+
+	if (danhsachve->data_import() == -1) {
+		SetColor(colorRed); cout << "ERROR: Lay danh sach ve that bai!" << endl;
 		Sleep(2000);
 	}
 

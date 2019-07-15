@@ -77,7 +77,7 @@ int DanhSachChuyenBay::data_export()
 
 	out << SoLuongChuyenBay << std::endl;
 
-	node *temp = new node;
+	node_ChuyenBay *temp = new node_ChuyenBay;
 	temp = head;
 
 	while (temp != NULL)
@@ -103,7 +103,7 @@ void DanhSachChuyenBay::insert(ChuyenBay value)
 {
 	SoLuongChuyenBay++;
 
-	node *temp = new node;
+	node_ChuyenBay *temp = new node_ChuyenBay;
 	temp->data = value;
 	temp->next = NULL;
 	if (head == NULL)
@@ -121,10 +121,10 @@ void DanhSachChuyenBay::insert(ChuyenBay value)
 
 void DanhSachChuyenBay::update_byposition(int pos, ChuyenBay value)
 {
-	node * current = new node;
+	node_ChuyenBay * current = new node_ChuyenBay;
 	current = head;
 
-	for (int i = 1; i < pos; i++)
+	for (int i = 0; i < pos; i++)
 		current = current->next;
 
 	current->data = value;
@@ -134,8 +134,8 @@ void DanhSachChuyenBay::delete_byposition(int pos)
 {
 	SoLuongChuyenBay--;
 
-	node *current = new node;
-	node *previous = new node;
+	node_ChuyenBay *current = new node_ChuyenBay;
+	node_ChuyenBay *previous = new node_ChuyenBay;
 	current = head;
 
 	if (pos == 0) { // delete head
@@ -155,13 +155,44 @@ void DanhSachChuyenBay::delete_byposition(int pos)
 
 ChuyenBay DanhSachChuyenBay::get_byposition(int pos)
 {
-	node *current = new node;
+	node_ChuyenBay *current = new node_ChuyenBay;
 	current = head;
 
-	for (int i = 1; i < pos; i++)
+	for (int i = 0; i < pos; i++)
 		current = current->next;
 
 	return current->data;
+}
+
+ChuyenBay * DanhSachChuyenBay::get_bymachuyenbay(std::string machuyenbay)
+{
+	ChuyenBay * res = new ChuyenBay();
+
+	node_ChuyenBay * temp = new node_ChuyenBay();
+	temp = head;
+
+	while (temp != NULL) {
+		if (temp->data.MaChuyenBay == machuyenbay) {
+			*res = temp->data;
+			return res;
+		}
+		temp = temp->next;
+	}
+
+	return NULL;
+}
+
+MayBay * DanhSachChuyenBay::getMayBay_bymachuyenbay(std::string machuyenbay)
+{
+	ChuyenBay * chuyenbay = get_bymachuyenbay(machuyenbay);
+
+	if (chuyenbay == NULL)
+		return NULL;
+
+	DanhSachMayBay * dsmaybay = DanhSachMayBay::getinstance();
+	MayBay * maybay = dsmaybay->getBy_SoHieuMayBay(chuyenbay->SoHieuMayBay);
+
+	return maybay;
 }
 
 bool DanhSachChuyenBay::isMaHopLe(string str)
@@ -284,7 +315,7 @@ void DanhSachChuyenBay::ShowList()
 	for (int i = 0; i < 100; i++) { GotoXY(i, lineStart + 3); putchar(196); }
 
 	// print data
-	node * current = new node;
+	node_ChuyenBay * current = new node_ChuyenBay;
 	current = head;
 	for (int i = 0; i < SoLuongChuyenBay; i++, current = current->next) {
 		GotoXY(0, lineStart + 4 + 2 * i);
@@ -471,6 +502,7 @@ int DanhSachChuyenBay::Modify()
 						SetColor(colorYellow); 
 						cin >> chuyenbay->NgayKhoiHanh.Nam >> chuyenbay->NgayKhoiHanh.Thang >> chuyenbay->NgayKhoiHanh.Ngay
 							>> chuyenbay->NgayKhoiHanh.Gio >> chuyenbay->NgayKhoiHanh.Phut;
+						cin.ignore();
 
 						if (!isNgayKhoiHanhHopLe(chuyenbay->NgayKhoiHanh)) {
 							SetColor(colorRed); cout << "ERROR: Ngay khoi hanh khong hop le!";
@@ -517,7 +549,7 @@ int DanhSachChuyenBay::Modify()
 				}
 				else if (c == 'N' || c == 'n') {
 					ClrLine(9);
-					cin.ignore();
+					//cin.ignore();
 					break;
 				}
 

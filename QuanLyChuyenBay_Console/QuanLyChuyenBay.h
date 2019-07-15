@@ -2,17 +2,17 @@
 
 #include "Objects.h"
 
-struct node
+struct node_ChuyenBay
 {
 	ChuyenBay data;
-	node *next;
+	node_ChuyenBay *next;
 };
 
 struct DanhSachChuyenBay
 {
 private:
 	int SoLuongChuyenBay;
-	node *head, *tail;
+	node_ChuyenBay *head, *tail;
 
 public:
 	static DanhSachChuyenBay* _instance;
@@ -25,7 +25,11 @@ public:
 	void insert(ChuyenBay value);
 	void update_byposition(int pos, ChuyenBay value);
 	void delete_byposition(int pos);
+
 	ChuyenBay get_byposition(int pos);
+	ChuyenBay * get_bymachuyenbay(std::string machuyenbay);
+	MayBay * getMayBay_bymachuyenbay(std::string machuyenbay);
+
 
 	bool isMaHopLe(std::string str);
 	bool isSoHieuMayBayHopLe(std::string str);

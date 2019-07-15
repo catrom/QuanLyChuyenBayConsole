@@ -119,6 +119,7 @@
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="QuanLyChuyenBay.cpp" />
+    <ClCompile Include="QuanLyHanhKhach.cpp" />
     <ClCompile Include="QuanLyMayBay.cpp" />
     <ClCompile Include="QuanLyVe.cpp" />
     <ClCompile Include="ThongKeBaoBieu.cpp" />
@@ -127,9 +128,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Console.h" />
-    <ClInclude Include="ObjectManagers.h" />
     <ClInclude Include="Objects.h" />
     <ClInclude Include="QuanLyChuyenBay.h" />
+    <ClInclude Include="QuanLyHanhKhach.h" />
     <ClInclude Include="QuanLyMayBay.h" />
     <ClInclude Include="QuanLyVe.h" />
     <ClInclude Include="ThongKeBaoBieu.h" />
