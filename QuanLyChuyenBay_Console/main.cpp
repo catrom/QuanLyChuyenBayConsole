@@ -11,11 +11,12 @@ QuanLyVe * danhsachve = QuanLyVe::getinstance();
 ThongKeBaoBieu * thongke = new ThongKeBaoBieu;
 
 void MainMenu() {
+
 	while (1) {
 		int choose = -1;
 
 		Clrscr();
-		
+
 		GotoXY(0, 0); SetColor(colorGreen); cout << "CHUONG TRINH QUAN LY CHUYEN BAY";
 		GotoXY(5, 2); SetColor(colorCyan); cout << "1. Quan ly may bay";
 		GotoXY(5, 3); SetColor(colorCyan); cout << "2. Quan ly chuyen bay";
@@ -71,7 +72,7 @@ void MainMenu() {
 int main() {
 	srand(time(NULL));
 	SetCursorVisible(0);
-	system("mode 100, 40");
+	system("mode 100");
 
 	if (danhsachmaybay->data_import() == -1) {
 		SetColor(colorRed); cout << "ERROR: Lay danh sach may bay that bai!" << endl;

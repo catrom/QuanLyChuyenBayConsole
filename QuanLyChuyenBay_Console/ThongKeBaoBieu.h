@@ -17,8 +17,8 @@ public:
 	void ShowQuanLyChuyenBay(ThoiGian ngaykhoihanh, std::string sanbayden, std::vector<ChuyenBay> dschuyenbay);
 
 	int QuanLyVeTrong();
-	int ExportQuanLyVeTrong();
-	void ShowQuanLyVeTrong();
+	int ExportQuanLyVeTrong(ChuyenBay chuyenbay, std::vector<std::vector<bool>> vitri);
+	void ShowQuanLyVeTrong(ChuyenBay chuyenbay, std::vector<std::vector<bool>> vitri);
 
 	int SoLuotThucHienChuyenBay();
 	int ExportSoLuotThucHienChuyenBay();

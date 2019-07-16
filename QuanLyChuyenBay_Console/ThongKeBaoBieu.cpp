@@ -127,7 +127,7 @@ int ThongKeBaoBieu::QuanLyHanhKhach()
 			if (ExportQuanLyHanhKhach(*chuyenbay, danhsachve, danhsachhanhkhach) == 1) {
 				GotoXY(0, 4);
 				SetColor(colorCyan); cout << "INFO: Xuat danh sach thanh cong ";
-				SetColor(colorYellow); cout << "...thongke/QuanLyHanhKhach.txt";
+				SetColor(colorYellow); cout << "...thongke/DanhSachHanhKhach.txt";
 			}
 			else {
 				GotoXY(0, 4);
@@ -147,7 +147,7 @@ int ThongKeBaoBieu::QuanLyHanhKhach()
 int ThongKeBaoBieu::ExportQuanLyHanhKhach(ChuyenBay chuyenbay, std::vector<Ve> dsve, std::vector<HanhKhach> dshanhkhach)
 {
 	std::ofstream out;
-	out.open("thongke/QuanLyHanhKhach.txt", std::ios::trunc);
+	out.open("thongke/DanhSachHanhKhach.txt", std::ios::trunc);
 
 	if (out.fail()) {
 		out.close();
@@ -353,7 +353,162 @@ void ThongKeBaoBieu::ShowQuanLyChuyenBay(ThoiGian ngaykhoihanh, std::string sanb
 
 int ThongKeBaoBieu::QuanLyVeTrong()
 {
-	return 0;
+	cin.ignore();
+
+	// Nhap ma chuyen bay
+	string machuyenbay;
+	ChuyenBay * chuyenbay;
+
+	while (1) {
+		ClrLine(9); GotoXY(0, 9); SetColor(colorWhite); cout << "Nhap ma chuyen bay: ";
+		SetColor(colorYellow); getline(cin, machuyenbay);
+
+		chuyenbay = KiemTraMaChuyenBay(machuyenbay);
+
+		if (chuyenbay)
+			break;
+	}
+
+	// lay danh sach ve
+	std::vector<Ve> danhsachve = QuanLyVe::getinstance()->getAll(machuyenbay);
+
+	// lay thong tin may bay
+	MayBay * maybay = QuanLyMayBay::getinstance()->getBy_SoHieuMayBay(chuyenbay->SoHieuMayBay);
+
+	// ma trận vị trí
+	std::vector<std::vector<bool>> vitri(maybay->SoDong, std::vector<bool>(maybay->SoDay, false));
+
+	// true: đã đặt, false: chưa đặt
+	for (int i = 0; i < danhsachve.size(); i++) {
+		vitri[danhsachve[i].ViTriHang - 1][danhsachve[i].ViTriDay - 1] = true;
+	}
+
+	// hien thi
+	Clrscr();
+	ShowQuanLyVeTrong(*chuyenbay, vitri);
+
+	// luu
+	GotoXY(5, 1); SetColor(colorCyan); cout << "1. Xuat danh sach";
+	GotoXY(35, 1); SetColor(colorCyan); cout << "2. Tro ve";
+
+	int choose = -1;
+
+	while (1) {
+		SetCursorVisible(1);
+		ClrLine(3); GotoXY(0, 3); SetColor(colorWhite); cout << "-> ";
+		cin >> choose;
+
+		switch (choose)
+		{
+		case 1:
+			if (ExportQuanLyVeTrong(*chuyenbay, vitri) == 1) {
+				GotoXY(0, 4);
+				SetColor(colorCyan); cout << "INFO: Xuat danh sach thanh cong ";
+				SetColor(colorYellow); cout << "...thongke/DanhSachVeTrong.txt";
+			}
+			else {
+				GotoXY(0, 4);
+				SetColor(colorRed); cout << "ERROR: Loi xuat file!" << endl;
+			}
+			Sleep(2000);
+			return -1;
+		case 2:
+			return -1;
+		default:
+			GotoXY(0, 4); SetColor(colorRed); cout << "ERROR: Input khong hop le!" << endl;
+			break;
+		}
+	}
+}
+
+int ThongKeBaoBieu::ExportQuanLyVeTrong(ChuyenBay chuyenbay, std::vector<std::vector<bool>> vitri)
+{
+	MayBay * maybay = QuanLyMayBay::getinstance()->getBy_SoHieuMayBay(chuyenbay.SoHieuMayBay);
+	int soLuongVeHienTai = QuanLyVe::getinstance()->getAll(chuyenbay.MaChuyenBay).size();
+	int soLuongVeConTrong = maybay->SoDay * maybay->SoDong - soLuongVeHienTai;
+
+	std::ofstream out;
+	out.open("thongke/DanhSachVeTrong.txt", std::ios::trunc);
+
+	if (out.fail()) {
+		out.close();
+		return -1;
+	}
+
+	ThoiGian c = chuyenbay.NgayKhoiHanh;
+
+	out << "DANH SACH VE TRONG CHUYEN BAY #" << chuyenbay.MaChuyenBay << std::endl;
+	out << "Ngay khoi hanh: " << c.Nam << "/" << c.Thang << "/" << c.Ngay << " " << c.Gio << ":" << c.Phut << endl;
+	out << "Noi den: " << chuyenbay.SanBayDen << endl;
+	out << "So luong ve da dat: " << soLuongVeHienTai << endl;
+	out << "So luong ve trong: " << soLuongVeConTrong << endl << endl;
+	out << "Danh sach ve trong: " << endl;
+
+	for (int i = 0; i < maybay->SoDong; i++) {
+		for (int j = 0; j < maybay->SoDay; j++) {
+			if (!vitri[i][j])
+				out << char(j + 'A') << i + 1 << ", ";
+		}
+	}
+
+	out.close();
+	return 1;
+}
+
+void ThongKeBaoBieu::ShowQuanLyVeTrong(ChuyenBay chuyenbay, std::vector<std::vector<bool>> vitri)
+{
+	MayBay * maybay = QuanLyMayBay::getinstance()->getBy_SoHieuMayBay(chuyenbay.SoHieuMayBay);
+	int soLuongVeHienTai = QuanLyVe::getinstance()->getAll(chuyenbay.MaChuyenBay).size();
+	int soLuongVeConTrong = maybay->SoDay * maybay->SoDong - soLuongVeHienTai;
+
+	int linestart = 11;
+	int colstart = 8;
+
+	GotoXY(5, 6); SetColor(colorYellow); cout << "DANH SACH DAT VE CHUYEN BAY #" << chuyenbay.MaChuyenBay;
+	GotoXY(5, 7); SetColor(colorWhite); cout << "Ngay khoi hanh: "; QuanLyChuyenBay::getinstance()->ShowTime(chuyenbay.NgayKhoiHanh);
+	GotoXY(5, 8); SetColor(colorWhite); cout << "Noi den: " << chuyenbay.SanBayDen;
+	GotoXY(5, 8); SetColor(colorWhite); cout << "Ve da dat: ";
+	SetColor(colorRed); putchar(254); 
+	SetColor(colorWhite); cout << " So luong: " << soLuongVeHienTai;
+	GotoXY(5, 9); SetColor(colorWhite); cout << "Ve trong:  ";
+	SetColor(colorGreen); putchar(254);
+	SetColor(colorWhite); cout << " So luong: " << soLuongVeConTrong;
+	
+
+	// print header
+	for (int i = 0; i < maybay->SoDay; i++) {
+		GotoXY(colstart + 2 * i, linestart); SetColor(colorWhite); cout << char(i + 'A');
+	}
+
+	for (int i = 0; i < maybay->SoDong; i++) {
+		GotoXY(colstart - 1 - std::to_string(i + 1).size(), linestart + 1 + i); SetColor(colorWhite); cout << i + 1;
+	}
+
+	// print vi tri
+	for (int i = 0; i < maybay->SoDong; i++) {
+		for (int j = 0; j < maybay->SoDay; j++) {
+			if (vitri[i][j]) // da dat ve
+				SetColor(colorRed);
+			else // ve trong
+				SetColor(colorGreen);
+			
+			GotoXY(colstart + 2 * j, linestart + 1 + i); 
+			putchar(254);
+		}
+	}
+
+	GotoXY(5, linestart + maybay->SoDong + 2); SetColor(colorWhite); cout << "Danh sach ve con trong: ";
+	// in thu tu
+	GotoXY(5, linestart + maybay->SoDong + 3); SetColor(colorGreen);
+
+	for (int i = 0; i < maybay->SoDong; i++) {
+		for (int j = 0; j < maybay->SoDay; j++) {
+			if (!vitri[i][j]) 
+				cout << char(j + 'A') << i + 1 << ", ";
+		}
+	}
+	
+	GotoXY(WhereX() - 2, WhereY()); cout << ' ';
 }
 
 int ThongKeBaoBieu::SoLuotThucHienChuyenBay()
