@@ -26,7 +26,7 @@ int ThongKeBaoBieu::Menu()
 	while (1) {
 		Clrscr();
 
-		GotoXY(0, 0); SetColor(colorGreen); cout << "THONG KE - BAO CAO";
+		GotoXY(0, 0); SetColor(colorHeader); cout << "THONG KE - BAO CAO";
 		GotoXY(5, 2); SetColor(colorCyan); cout << "1. Danh sach hanh khach thuoc chuyen bay";
 		GotoXY(5, 3); SetColor(colorCyan); cout << "2. Danh sach chuyen bay khoi hanh trong ngay";
 		GotoXY(5, 4); SetColor(colorCyan); cout << "3. Danh sach ve trong cua chuyen bay";
@@ -499,7 +499,7 @@ void ThongKeBaoBieu::ShowQuanLyVeTrong(ChuyenBay chuyenbay, std::vector<std::vec
 
 	GotoXY(5, linestart + maybay->SoDong + 2); SetColor(colorWhite); cout << "Danh sach ve con trong: ";
 	// in thu tu
-	GotoXY(5, linestart + maybay->SoDong + 3); SetColor(colorGreen);
+	GotoXY(5, linestart + maybay->SoDong + 3); SetColor(colorYellow);
 
 	for (int i = 0; i < maybay->SoDong; i++) {
 		for (int j = 0; j < maybay->SoDay; j++) {
@@ -513,5 +513,120 @@ void ThongKeBaoBieu::ShowQuanLyVeTrong(ChuyenBay chuyenbay, std::vector<std::vec
 
 int ThongKeBaoBieu::SoLuotThucHienChuyenBay()
 {
-	return 0;
+	std::vector<MayBay> dsmaybay = QuanLyMayBay::getinstance()->getDanhSachMayBay();
+	std::vector<ChuyenBay> dschuyenbay = QuanLyChuyenBay::getinstance()->getAll();
+	std::vector<int> soluotthuchien(dsmaybay.size());
+
+	// counting
+	for (int i = 0; i < dsmaybay.size(); i++) {
+		int cnt = 0;
+		for (int j = 0; j < dschuyenbay.size(); j++) {
+			if (dsmaybay[i].SoHieuMayBay == dschuyenbay[j].SoHieuMayBay)
+				cnt++;
+		}
+		soluotthuchien[i] = cnt;
+	}
+
+	// sorting
+	for (int i = 0; i < soluotthuchien.size(); i++) {
+		for (int j = i + 1; j < soluotthuchien.size(); j++) {
+			if (soluotthuchien[i] < soluotthuchien[j]) {
+				int itemp = soluotthuchien[i];
+				soluotthuchien[i] = soluotthuchien[j];
+				soluotthuchien[j] = itemp;
+
+				MayBay mbtemp = dsmaybay[i];
+				dsmaybay[i] = dsmaybay[j];
+				dsmaybay[j] = mbtemp;
+			}
+		}
+	}
+
+	// show
+	Clrscr();
+	ShowSoLuotThucHienChuyenBay(dsmaybay, soluotthuchien);
+
+	// luu
+	GotoXY(5, 1); SetColor(colorCyan); cout << "1. Xuat danh sach";
+	GotoXY(35, 1); SetColor(colorCyan); cout << "2. Tro ve";
+
+	int choose = -1;
+
+	while (1) {
+		SetCursorVisible(1);
+		ClrLine(3); GotoXY(0, 3); SetColor(colorWhite); cout << "-> ";
+		cin >> choose;
+
+		switch (choose)
+		{
+		case 1:
+			if (ExportSoLuotThucHienChuyenBay(dsmaybay, soluotthuchien) == 1) {
+				GotoXY(0, 4);
+				SetColor(colorCyan); cout << "INFO: Xuat danh sach thanh cong ";
+				SetColor(colorYellow); cout << "...thongke/SoLuotThucHienChuyenBay.txt";
+			}
+			else {
+				GotoXY(0, 4);
+				SetColor(colorRed); cout << "ERROR: Loi xuat file!" << endl;
+			}
+			Sleep(2000);
+			return -1;
+		case 2:
+			return -1;
+		default:
+			GotoXY(0, 4); SetColor(colorRed); cout << "ERROR: Input khong hop le!" << endl;
+			break;
+		}
+	}
+}
+
+int ThongKeBaoBieu::ExportSoLuotThucHienChuyenBay(std::vector<MayBay> dsmaybay, std::vector<int> soluotthuchien)
+{
+	std::ofstream out;
+	out.open("thongke/SoLuotThucHienChuyenBay.txt", std::ios::trunc);
+
+	if (out.fail()) {
+		out.close();
+		return -1;
+	}
+
+	out << "THONG KE SO LUOT THUC HIEN CHUYEN BAY" << endl << endl;
+
+	out << "STT\t" << "SO HIEU MAY BAY\t" << "LOAI MAY BAY\t" << "SO LUOT THUC HIEN CHUYEN BAY" << endl;
+
+	for (int i = 0; i < dsmaybay.size(); i++) {
+		out << i + 1 << "\t";	// STT;
+		out << dsmaybay[i].SoHieuMayBay << "\t\t";
+		out << dsmaybay[i].LoaiMayBay << "\t\t";
+		out << soluotthuchien[i] << endl;
+	}
+
+	out.close();
+	return 1;
+}
+
+void ThongKeBaoBieu::ShowSoLuotThucHienChuyenBay(std::vector<MayBay> dsmaybay, std::vector<int> soluotthuchien)
+{
+	GotoXY(5, 6); SetColor(colorYellow); cout << "THONG KE SO LUOT THUC HIEN CHUYEN BAY";
+
+	int lineStart = 7;
+
+	// print header
+	SetColor(colorDefault);
+	for (int i = 0; i < 90; i++) { GotoXY(i + 5, lineStart + 1); putchar(196); }
+	GotoXY(5, lineStart + 2);
+	cout << "| STT    | SO HIEU MAY BAY        | LOAI MAY BAY          | SO LUOT THUC HIEN CHUYEN BAY |";
+	for (int i = 0; i < 90; i++) { GotoXY(i + 5, lineStart + 3); putchar(196); }
+
+	// print data
+	for (int i = 0; i < dsmaybay.size(); i++) {
+		GotoXY(5, lineStart + 4 + 2 * i);
+		cout << "|        |                        |                       |                              |";
+
+		GotoXY(7, lineStart + 4 + 2 * i); cout << i + 1;	// STT;
+		GotoXY(16, lineStart + 4 + 2 * i); cout << dsmaybay[i].SoHieuMayBay;
+		GotoXY(41, lineStart + 4 + 2 * i); cout << dsmaybay[i].LoaiMayBay;
+		GotoXY(65, lineStart + 4 + 2 * i); cout << soluotthuchien[i];
+		for (int j = 0; j < 90; j++) { GotoXY(j + 5, lineStart + 5 + 2 * i); putchar(196); }
+	}
 }

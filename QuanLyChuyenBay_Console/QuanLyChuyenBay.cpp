@@ -187,6 +187,20 @@ MayBay * QuanLyChuyenBay::getMayBay_bymachuyenbay(std::string machuyenbay)
 	return maybay;
 }
 
+std::vector<ChuyenBay> QuanLyChuyenBay::getAll()
+{
+	std::vector<ChuyenBay> result;
+	node_ChuyenBay * temp = new node_ChuyenBay;
+	temp = head;
+
+	while (temp != NULL) {
+		result.push_back(temp->data);
+		temp = temp->next;
+	}
+
+	return result;
+}
+
 std::vector<ChuyenBay> QuanLyChuyenBay::getAll(ThoiGian t, std::string sanbayden)
 {
 	std::vector<ChuyenBay> result;
@@ -205,9 +219,22 @@ std::vector<ChuyenBay> QuanLyChuyenBay::getAll(ThoiGian t, std::string sanbayden
 	return result;
 }
 
-bool QuanLyChuyenBay::isMaHopLe(string str)
+std::string QuanLyChuyenBay::Build_MaChuyenBay()
 {
-	return str.size() > 0 && str.size() <= 15;
+	string res = "CB";
+	int max = 0;
+	node_ChuyenBay * temp = new node_ChuyenBay;
+	temp = head;
+
+	while (temp != NULL) {
+		int id = StringToInteger(temp->data.MaChuyenBay.substr(2, 14));
+
+		if (id > max) max = id;
+		temp = temp->next;
+	}
+
+	res = res + std::to_string(max + 1);
+	return res;
 }
 
 bool QuanLyChuyenBay::isSoHieuMayBayHopLe(std::string str)
@@ -261,7 +288,7 @@ int QuanLyChuyenBay::Menu()
 		Clrscr();
 		ShowList();
 
-		GotoXY(0, 0); SetColor(colorGreen); cout << "QUAN LY CHUYEN BAY";
+		GotoXY(0, 0); SetColor(colorHeader); cout << "QUAN LY CHUYEN BAY";
 		GotoXY(5, 2); SetColor(colorCyan); cout << "1. Them chuyen bay";
 		GotoXY(5, 3); SetColor(colorCyan); cout << "2. Hieu chinh chuyen bay";
 		GotoXY(5, 4); SetColor(colorCyan); cout << "3. Xoa chuyen bay";
@@ -321,7 +348,7 @@ void QuanLyChuyenBay::ShowList()
 	SetColor(colorDefault);
 	for (int i = 0; i < 100; i++) { GotoXY(i, lineStart + 1); putchar(196); }
 	GotoXY(0, lineStart + 2);
-	cout << "| STT  | Ma chuyen bay    | So hieu may bay  | San bay den        | Ngay khoi hanh   | Trang thai  |";
+	cout << "| STT  | MA CHUYEN BAY    | SO HIEU MAY BAY  | SAN BAY DEN        | NGAY KHOI HANH   | TRANG THAI  |";
 	for (int i = 0; i < 100; i++) { GotoXY(i, lineStart + 3); putchar(196); }
 
 	// print data
@@ -362,25 +389,14 @@ void QuanLyChuyenBay::ShowState(int state)
 int QuanLyChuyenBay::Add()
 {
 	Clrscr();
-	GotoXY(0, 0); SetColor(colorGreen); cout << "THEM CHUYEN BAY";
+	GotoXY(0, 0); SetColor(colorHeader); cout << "THEM CHUYEN BAY";
 
 	ChuyenBay * chuyenbay = new ChuyenBay();
 
-	// Nhap ma chuyen bay
-	ClrLine(2); GotoXY(5, 2); SetColor(colorWhite); cout << "* Nhap ma chuyen bay: ";
-	while (1) {
-		ClrLine(3);
-		GotoXY(10, 3); SetColor(colorYellow);
-		cin.ignore(); getline(cin, chuyenbay->MaChuyenBay);
-
-		if (!isMaHopLe(chuyenbay->MaChuyenBay)) {
-			SetColor(colorRed); cout << "ERROR: Ma chuyen bay khong hop le!";
-		}
-		else {
-			LineStandardize(chuyenbay->MaChuyenBay);
-			break;
-		}
-	}
+	// ma chuyen bay
+	chuyenbay->MaChuyenBay = Build_MaChuyenBay();
+	ClrLine(2); GotoXY(5, 2); SetColor(colorWhite); cout << "Ma chuyen bay: ";
+	GotoXY(10, 3); SetColor(colorYellow); cout << chuyenbay->MaChuyenBay;
 
 	// Nhap so hieu may bay
 	ClrLine(4); GotoXY(5, 4); SetColor(colorWhite); cout << "* Nhap so hieu may bay: ";
@@ -488,7 +504,7 @@ int QuanLyChuyenBay::Modify()
 		}
 		else {
 			Clrscr();
-			GotoXY(0, 0); SetColor(colorGreen); cout << "HIEU CHINH MAY BAY";
+			GotoXY(0, 0); SetColor(colorHeader); cout << "HIEU CHINH MAY BAY";
 			int index = choose - 1;
 
 			ChuyenBay * chuyenbay = new ChuyenBay();

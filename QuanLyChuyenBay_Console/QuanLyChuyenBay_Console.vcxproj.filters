@@ -30,9 +30,6 @@
     <ClCompile Include="ThongKeBaoBieu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ThongTin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Utilities.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -54,9 +51,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ThongKeBaoBieu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ThongTin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Utilities.h">

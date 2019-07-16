@@ -28,9 +28,11 @@ public:
 	ChuyenBay get_byposition(int pos);
 	ChuyenBay * get_bymachuyenbay(std::string machuyenbay);
 	MayBay * getMayBay_bymachuyenbay(std::string machuyenbay);
+	std::vector<ChuyenBay> getAll();
 	std::vector<ChuyenBay> getAll(ThoiGian t, std::string sanbayden);
 
-	bool isMaHopLe(std::string str);
+	std::string Build_MaChuyenBay();
+
 	bool isSoHieuMayBayHopLe(std::string str);
 	bool isSanBayDenHopLe(std::string str);
 	bool isNgayKhoiHanhHopLe(ThoiGian tg);

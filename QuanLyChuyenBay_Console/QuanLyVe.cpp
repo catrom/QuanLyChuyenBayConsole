@@ -299,7 +299,7 @@ int QuanLyVe::Menu()
 	while (1) {
 		Clrscr();
 
-		GotoXY(0, 0); SetColor(colorGreen); cout << "QUAN LY VE";
+		GotoXY(0, 0); SetColor(colorHeader); cout << "QUAN LY VE";
 		GotoXY(5, 2); SetColor(colorCyan); cout << "1. Dat ve";
 		GotoXY(5, 3); SetColor(colorCyan); cout << "2. Huy ve";
 		GotoXY(5, 4); SetColor(colorCyan); cout << "3. Xuat danh sach";
@@ -348,7 +348,7 @@ int QuanLyVe::Add()
 {
 	Clrscr();
 	cin.ignore();
-	GotoXY(0, 0); SetColor(colorGreen); cout << "DAT VE";
+	GotoXY(0, 0); SetColor(colorHeader); cout << "DAT VE";
 
 	Ve * ve = new Ve();
 	int ketqua = 0;
@@ -539,7 +539,7 @@ int QuanLyVe::Remove()
 {
 	Clrscr();
 	cin.ignore();
-	GotoXY(0, 0); SetColor(colorGreen); cout << "HUY VE";
+	GotoXY(0, 0); SetColor(colorHeader); cout << "HUY VE";
 
 	string machuyenbay;
 	string soCMND;

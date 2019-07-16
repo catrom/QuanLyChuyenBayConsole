@@ -21,6 +21,6 @@ public:
 	void ShowQuanLyVeTrong(ChuyenBay chuyenbay, std::vector<std::vector<bool>> vitri);
 
 	int SoLuotThucHienChuyenBay();
-	int ExportSoLuotThucHienChuyenBay();
-	void ShowSoLuotThucHienChuyenBay();
+	int ExportSoLuotThucHienChuyenBay(std::vector<MayBay> dsmaybay, std::vector<int> soluotthuchien);
+	void ShowSoLuotThucHienChuyenBay(std::vector<MayBay> dsmaybay, std::vector<int> soluotthuchien);
 };

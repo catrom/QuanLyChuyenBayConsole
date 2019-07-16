@@ -19,12 +19,13 @@ public:
 	void delete_byposition(int i);
 	void update_byposition(int i, MayBay * value);
 
-	bool isSoHieuHopLe(std::string str);
+	std::string Build_SoHieuMayBay();
+
 	bool isLoaiHopLe(std::string str);
-	bool isSoDayHopLe(std::string str);
-	bool isSoDongHopLe(std::string str);
 
 	MayBay * getBy_SoHieuMayBay(std::string sohieu);
+	int getSoLuongMayBay();
+	std::vector<MayBay> getDanhSachMayBay();
 
 	// display
 	int Menu();

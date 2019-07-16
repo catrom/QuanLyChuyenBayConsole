@@ -5,6 +5,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <map>
 #include <stdio.h>
 #include <conio.h>
 #include <ctime>
@@ -12,6 +13,7 @@
 using namespace std;
 
 // Console
+#define colorHeader 224
 #define colorGreen   10
 #define colorCyan   11
 #define colorYellow   14
@@ -38,3 +40,18 @@ void SetColor(int color);
 using namespace std;
 int StringToInteger(std::string s);
 std::string LineStandardize(std::string s);
+
+// input
+struct Input {
+private:
+	std::string result;
+
+public:
+	int GetInput();
+	std::string GetResult();
+
+	bool isInteger();
+	bool isString();
+};
+
+static Input * input = new Input;

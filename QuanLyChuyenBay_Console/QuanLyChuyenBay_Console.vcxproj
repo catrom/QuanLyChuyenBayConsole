@@ -122,7 +122,6 @@
     <ClCompile Include="QuanLyMayBay.cpp" />
     <ClCompile Include="QuanLyVe.cpp" />
     <ClCompile Include="ThongKeBaoBieu.cpp" />
-    <ClCompile Include="ThongTin.cpp" />
     <ClCompile Include="Utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -132,7 +131,6 @@
     <ClInclude Include="QuanLyMayBay.h" />
     <ClInclude Include="QuanLyVe.h" />
     <ClInclude Include="ThongKeBaoBieu.h" />
-    <ClInclude Include="ThongTin.h" />
     <ClInclude Include="Utilities.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

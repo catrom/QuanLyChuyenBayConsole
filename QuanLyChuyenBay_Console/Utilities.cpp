@@ -57,6 +57,7 @@ int InputKey()
 
 void Clrscr()
 {
+	SetColor(colorDefault);
 	CONSOLE_SCREEN_BUFFER_INFO	csbiInfo;
 	HANDLE	hConsoleOut;
 	COORD	Home = { 0,0 };
@@ -74,6 +75,7 @@ void Clrscr()
 void ClrLine(int line)
 {
 	GotoXY(0, line);
+	SetColor(colorDefault);
 	printf("\r                                                                                        ");
 }
 
@@ -104,4 +106,47 @@ int WhereY()
 void SetColor(int color)
 {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+}
+
+int Input::GetInput()
+{
+	result = "";
+
+	while (1) {
+		char c = InputKey();
+		if (c == 13) 
+			return 1; // Enter key
+		if (c == 27) 
+			return -1; // ESC key
+		if (c == 8) {
+			result = result.substr(0, result.size() - 1);
+			GotoXY(WhereX() - 1, WhereY()); cout << ' ';
+		}
+
+		if (c != keyNone) {
+			if (c != 8) 
+				result += char(c);			
+			cout << char(c);
+		}
+	}
+}
+
+std::string Input::GetResult()
+{
+	return result;
+}
+
+bool Input::isInteger()
+{
+	for (int i = 0; i < result.size(); i++) {
+		if (!(result[i] >= '0' && result[i] <= '9'))
+			return 0;
+	}
+
+	return 1;
+}
+
+bool Input::isString()
+{
+	return result.size() > 0;
 }
