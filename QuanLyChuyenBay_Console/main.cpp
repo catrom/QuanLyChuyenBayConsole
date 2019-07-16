@@ -4,10 +4,10 @@
 #include "QuanLyVe.h"
 #include "ThongKeBaoBieu.h"
 
-DanhSachMayBay * danhsachmaybay = DanhSachMayBay::getinstance();
-DanhSachChuyenBay * danhsachchuyenbay = DanhSachChuyenBay::getinstance();
-DanhSachHanhKhach * danhsachhanhkhach = DanhSachHanhKhach::getinstance();
-DanhSachVe * danhsachve = DanhSachVe::getinstance();
+QuanLyMayBay * danhsachmaybay = QuanLyMayBay::getinstance();
+QuanLyChuyenBay * danhsachchuyenbay = QuanLyChuyenBay::getinstance();
+QuanLyHanhKhach * danhsachhanhkhach = QuanLyHanhKhach::getinstance();
+QuanLyVe * danhsachve = QuanLyVe::getinstance();
 ThongKeBaoBieu * thongke = new ThongKeBaoBieu;
 
 void MainMenu() {

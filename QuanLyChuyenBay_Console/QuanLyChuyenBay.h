@@ -7,17 +7,17 @@ struct node_ChuyenBay
 	node_ChuyenBay *next;
 };
 
-struct DanhSachChuyenBay
+struct QuanLyChuyenBay
 {
 private:
 	int SoLuongChuyenBay;
 	node_ChuyenBay *head, *tail;
 
 public:
-	static DanhSachChuyenBay* _instance;
-	DanhSachChuyenBay();
+	static QuanLyChuyenBay* _instance;
+	QuanLyChuyenBay();
 
-	static DanhSachChuyenBay * getinstance();
+	static QuanLyChuyenBay * getinstance();
 	int data_import();
 	int data_export();
 
@@ -28,7 +28,7 @@ public:
 	ChuyenBay get_byposition(int pos);
 	ChuyenBay * get_bymachuyenbay(std::string machuyenbay);
 	MayBay * getMayBay_bymachuyenbay(std::string machuyenbay);
-
+	std::vector<ChuyenBay> getAll(ThoiGian t, std::string sanbayden);
 
 	bool isMaHopLe(std::string str);
 	bool isSoHieuMayBayHopLe(std::string str);

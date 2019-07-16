@@ -7,16 +7,20 @@ public:
 	ChuyenBay * KiemTraMaChuyenBay(std::string machuyenbay);
 
 	int Menu();
-	int DanhSachHanhKhach();
-	int ExportDanhSachHanhKhach(ChuyenBay chuyenbay, std::vector<Ve> dsve, std::vector<HanhKhach> dshanhkhach);
-	void ShowDanhSachHanhKhach(ChuyenBay chuyenbay, std::vector<Ve> dsve, std::vector<HanhKhach> dshanhkhach);
 
-	int DanhSachChuyenBay();
-	int ExportDanhSachChuyenBay();
+	int QuanLyHanhKhach();
+	int ExportQuanLyHanhKhach(ChuyenBay chuyenbay, std::vector<Ve> dsve, std::vector<HanhKhach> dshanhkhach);
+	void ShowQuanLyHanhKhach(ChuyenBay chuyenbay, std::vector<Ve> dsve, std::vector<HanhKhach> dshanhkhach);
 
-	int DanhSachVeTrong();
-	int ExportDanhSachVeTrong();
+	int QuanLyChuyenBay();
+	int ExportQuanLyChuyenBay(ThoiGian ngaykhoihanh, std::string sanbayden, std::vector<ChuyenBay> dschuyenbay);
+	void ShowQuanLyChuyenBay(ThoiGian ngaykhoihanh, std::string sanbayden, std::vector<ChuyenBay> dschuyenbay);
+
+	int QuanLyVeTrong();
+	int ExportQuanLyVeTrong();
+	void ShowQuanLyVeTrong();
 
 	int SoLuotThucHienChuyenBay();
 	int ExportSoLuotThucHienChuyenBay();
+	void ShowSoLuotThucHienChuyenBay();
 };

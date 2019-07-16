@@ -1,4 +1,4 @@
-6
+8
 222222222
 Nguyen Van
 Toan
@@ -7,6 +7,14 @@ Nam
 Maria
 Ozawa
 Nu
+123456789
+Nguyen Van
+Teo
+Nu
+123789456
+Nguyen Ba
+ABC
+Nam
 333333333
 Nguyen Cong
 Phuong

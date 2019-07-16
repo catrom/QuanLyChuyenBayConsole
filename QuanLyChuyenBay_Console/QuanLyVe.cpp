@@ -3,22 +3,22 @@
 #include "QuanLyMayBay.h"
 #include "QuanLyVe.h"
 
-DanhSachVe * DanhSachVe::_instance = NULL;
+QuanLyVe * QuanLyVe::_instance = NULL;
 
-DanhSachVe::DanhSachVe()
+QuanLyVe::QuanLyVe()
 {
 	SoLuongVe = 0;
 	head = NULL;
 	tail = NULL;
 }
 
-DanhSachVe * DanhSachVe::getinstance()
+QuanLyVe * QuanLyVe::getinstance()
 {
-	if (_instance == NULL) _instance = new DanhSachVe();
+	if (_instance == NULL) _instance = new QuanLyVe();
 	return _instance;
 }
 
-int DanhSachVe::data_import()
+int QuanLyVe::data_import()
 {
 	std::ifstream in;
 	in.open("data/Ve.txt");
@@ -54,7 +54,7 @@ int DanhSachVe::data_import()
 	return 1;
 }
 
-int DanhSachVe::data_export()
+int QuanLyVe::data_export()
 {
 	std::ofstream out;
 	out.open("data/Ve.txt", std::ios::trunc);
@@ -83,7 +83,7 @@ int DanhSachVe::data_export()
 	return 1;
 }
 
-void DanhSachVe::add(Ve value)
+void QuanLyVe::add(Ve value)
 {
 	SoLuongVe++;
 
@@ -103,7 +103,7 @@ void DanhSachVe::add(Ve value)
 	}
 }
 
-void DanhSachVe::remove(std::string machuyenbay, long soCMND)
+void QuanLyVe::remove(std::string machuyenbay, long soCMND)
 {
 	node_Ve *current = new node_Ve;
 	node_Ve *previous = new node_Ve;
@@ -130,7 +130,7 @@ void DanhSachVe::remove(std::string machuyenbay, long soCMND)
 	}
 }
 
-Ve * DanhSachVe::find(std::string machuyenbay, long soCMND)
+Ve * QuanLyVe::find(std::string machuyenbay, long soCMND)
 {
 	node_Ve * temp = new node_Ve;
 	temp = head;
@@ -148,7 +148,7 @@ Ve * DanhSachVe::find(std::string machuyenbay, long soCMND)
 	return NULL;
 }
 
-std::vector<Ve> DanhSachVe::getAll(std::string machuyenbay)
+std::vector<Ve> QuanLyVe::getAll(std::string machuyenbay)
 {
 	vector<Ve> result;
 
@@ -165,14 +165,14 @@ std::vector<Ve> DanhSachVe::getAll(std::string machuyenbay)
 	return result;
 }
 
-int DanhSachVe::KiemTraMaChuyenBay(std::string str)
+int QuanLyVe::KiemTraMaChuyenBay(std::string str)
 {
 	if (!(str.size() > 0 && str.size() <= 15)) {
 		ClrLine(4); GotoXY(0, 4); SetColor(colorRed); cout << "ERROR: Ma chuyen bay khong hop le!";
 		return 0;
 	}
 	
-	DanhSachChuyenBay * dschuyenbay = DanhSachChuyenBay::getinstance();
+	QuanLyChuyenBay * dschuyenbay = QuanLyChuyenBay::getinstance();
 	ChuyenBay * chuyenbay = dschuyenbay->get_bymachuyenbay(str);
 
 	if (chuyenbay == NULL) { 	// kiem tra ton tai
@@ -191,7 +191,7 @@ int DanhSachVe::KiemTraMaChuyenBay(std::string str)
 	return 1;
 }
 
-int DanhSachVe::KiemTraSoCMND(std::string str)
+int QuanLyVe::KiemTraSoCMND(std::string str)
 {
 	for (int i = 0; i < str.size(); i++) {
 		if (!(str[i] >= '0' && str[i] <= '9')) {
@@ -202,7 +202,7 @@ int DanhSachVe::KiemTraSoCMND(std::string str)
 
 	// kiem tra ton tai
 	long soCMND = StringToInteger(str);
-	DanhSachHanhKhach * dshanhkhach = DanhSachHanhKhach::getinstance();
+	QuanLyHanhKhach * dshanhkhach = QuanLyHanhKhach::getinstance();
 	HanhKhach * hanhkhach = dshanhkhach->Find(soCMND);
 
 	if (hanhkhach == NULL) {
@@ -215,7 +215,7 @@ int DanhSachVe::KiemTraSoCMND(std::string str)
 	return 1;
 }
 
-int DanhSachVe::KiemTraDieuKienDatVe(std::string machuyenbay, long soCMND)
+int QuanLyVe::KiemTraDieuKienDatVe(std::string machuyenbay, long soCMND)
 {
 	node_Ve * temp = new node_Ve();
 	temp = head;
@@ -235,7 +235,7 @@ int DanhSachVe::KiemTraDieuKienDatVe(std::string machuyenbay, long soCMND)
 	return 1;
 }
 
-int DanhSachVe::KiemTraViTriHopLe(int vitriday, int vitrihang)
+int QuanLyVe::KiemTraViTriHopLe(int vitriday, int vitrihang)
 {
 	node_Ve * temp = new node_Ve();
 	temp = head;
@@ -250,12 +250,12 @@ int DanhSachVe::KiemTraViTriHopLe(int vitriday, int vitrihang)
 	return 1;
 }
 
-bool DanhSachVe::isHoTenHopLe(std::string str)
+bool QuanLyVe::isHoTenHopLe(std::string str)
 {
 	return str.size() > 0;
 }
 
-bool DanhSachVe::isPhaiHopLe(std::string str)
+bool QuanLyVe::isPhaiHopLe(std::string str)
 {
 	for (int i = 0; i < str.size(); i++) {
 		if (!(str[i] >= '0' && str[i] <= '9'))
@@ -268,7 +268,7 @@ bool DanhSachVe::isPhaiHopLe(std::string str)
 	return 1;
 }
 
-bool DanhSachVe::isViTriDayHopLe(std::string str, int soday)
+bool QuanLyVe::isViTriDayHopLe(std::string str, int soday)
 {
 	if (str.size() != 1)
 		return 0;
@@ -279,7 +279,7 @@ bool DanhSachVe::isViTriDayHopLe(std::string str, int soday)
 	return 1;
 }
 
-bool DanhSachVe::isViTriDongHopLe(std::string str, int sodong)
+bool QuanLyVe::isViTriDongHopLe(std::string str, int sodong)
 {
 	for (int i = 0; i < str.size(); i++) {
 		if (!(str[i] >= '0' && str[i] <= '9'))
@@ -294,7 +294,7 @@ bool DanhSachVe::isViTriDongHopLe(std::string str, int sodong)
 	return 1;
 }
 
-int DanhSachVe::Menu()
+int QuanLyVe::Menu()
 {
 	while (1) {
 		Clrscr();
@@ -344,7 +344,7 @@ int DanhSachVe::Menu()
 	}
 }
 
-int DanhSachVe::Add()
+int QuanLyVe::Add()
 {
 	Clrscr();
 	cin.ignore();
@@ -449,14 +449,14 @@ int DanhSachVe::Add()
 		}
 
 		// Luu
-		DanhSachHanhKhach * dshanhkhach = DanhSachHanhKhach::getinstance();
+		QuanLyHanhKhach * dshanhkhach = QuanLyHanhKhach::getinstance();
 		dshanhkhach->Insert(*hanhkhach);
 		ShowInfoHanhKhach(hanhkhach);
 	}
 
 	// Nhap thong tin vi tri day, vi tri dong
 	// Lay thong tin may bay
-	DanhSachChuyenBay * dschuyenbay = DanhSachChuyenBay::getinstance();
+	QuanLyChuyenBay * dschuyenbay = QuanLyChuyenBay::getinstance();
 	MayBay * maybay = dschuyenbay->getMayBay_bymachuyenbay(ve->MaChuyenBay);
 
 	int linestart = (ketqua == -1 ? 12 : 8);
@@ -535,7 +535,7 @@ int DanhSachVe::Add()
 	}
 }
 
-int DanhSachVe::Remove()
+int QuanLyVe::Remove()
 {
 	Clrscr();
 	cin.ignore();
@@ -604,9 +604,9 @@ int DanhSachVe::Remove()
 	}
 }
 
-int DanhSachVe::Export()
+int QuanLyVe::Export()
 {
-	DanhSachHanhKhach * dshanhkhach = DanhSachHanhKhach::getinstance();
+	QuanLyHanhKhach * dshanhkhach = QuanLyHanhKhach::getinstance();
 	if (data_export() == -1 || dshanhkhach->data_export() == -1) {
 		SetColor(colorRed); cout << "ERROR: Loi xuat file!" << endl;
 		Sleep(2000);
@@ -620,13 +620,13 @@ int DanhSachVe::Export()
 	}
 }
 
-void DanhSachVe::ShowInfoChuyenBay(ChuyenBay * chuyenbay)
+void QuanLyVe::ShowInfoChuyenBay(ChuyenBay * chuyenbay)
 {
 	for (int i = 5; i < 95; i++) {
 		SetColor(colorDefault); GotoXY(i, 30); putchar(205);
 	}
 
-	DanhSachChuyenBay * dschuyenbay = DanhSachChuyenBay::getinstance();
+	QuanLyChuyenBay * dschuyenbay = QuanLyChuyenBay::getinstance();
 	GotoXY(5, 31); SetColor(colorYellow); cout << "Thong tin chuyen bay: ";
 	GotoXY(5, 32); SetColor(colorDefault); cout << "   Ma chuyen bay: " << chuyenbay->MaChuyenBay;
 	GotoXY(5, 33); SetColor(colorDefault); cout << "   So hieu may bay: " << chuyenbay->SoHieuMayBay;
@@ -635,7 +635,7 @@ void DanhSachVe::ShowInfoChuyenBay(ChuyenBay * chuyenbay)
 	GotoXY(5, 36); SetColor(colorDefault); cout << "   Trang thai: "; dschuyenbay->ShowState(chuyenbay->TrangThai);
 }
 
-void DanhSachVe::ShowInfoHanhKhach(HanhKhach * hanhkhach)
+void QuanLyVe::ShowInfoHanhKhach(HanhKhach * hanhkhach)
 {
 	for (int i = 5; i < 95; i++) {
 		SetColor(colorDefault); GotoXY(i, 30); putchar(205);
@@ -648,7 +648,7 @@ void DanhSachVe::ShowInfoHanhKhach(HanhKhach * hanhkhach)
 	GotoXY(50, 35); SetColor(colorDefault); cout << "   Phai: " << hanhkhach->Phai;
 }
 
-void DanhSachVe::ShowInfoVe(Ve * ve)
+void QuanLyVe::ShowInfoVe(Ve * ve)
 {
 	for (int i = 5; i < 95; i++) {
 		SetColor(colorDefault); GotoXY(i, 24); putchar(205);

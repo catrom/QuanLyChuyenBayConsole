@@ -8,7 +8,7 @@ int StringToInteger(std::string s) {
 	return num;
 }
 
-void LineStandardize(std::string s) {
+std::string LineStandardize(std::string s) {
 	int n = s.size() - 1;
 
 	while (s[0] == ' ' || s[0] == '\n')
@@ -23,6 +23,8 @@ void LineStandardize(std::string s) {
 		s[n] = '\0';
 		n--;
 	}
+
+	return s;
 }
 
 void SetCursorVisible(bool isVisible)

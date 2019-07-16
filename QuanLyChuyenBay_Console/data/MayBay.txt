@@ -1,4 +1,4 @@
-2
+3
 MB002
 Boeing777
 4
@@ -6,4 +6,8 @@ Boeing777
 MB007
 Boeing007
 7
-7
+15
+MB001
+Jetstar911
+6
+30

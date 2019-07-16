@@ -1,22 +1,22 @@
 ﻿#include "QuanLyChuyenBay.h"
 #include "QuanLyMayBay.h"
 
-DanhSachChuyenBay * DanhSachChuyenBay::_instance = NULL;
+QuanLyChuyenBay * QuanLyChuyenBay::_instance = NULL;
 
-DanhSachChuyenBay::DanhSachChuyenBay()
+QuanLyChuyenBay::QuanLyChuyenBay()
 {
 	SoLuongChuyenBay = 0;
 	head = NULL;
 	tail = NULL;
 }
 
-DanhSachChuyenBay * DanhSachChuyenBay::getinstance()
+QuanLyChuyenBay * QuanLyChuyenBay::getinstance()
 {
-	if (_instance == NULL) _instance = new DanhSachChuyenBay();
+	if (_instance == NULL) _instance = new QuanLyChuyenBay();
 	return _instance;
 }
 
-int DanhSachChuyenBay::data_import()
+int QuanLyChuyenBay::data_import()
 {
 	std::ifstream in;
 	in.open("data/ChuyenBay.txt");
@@ -57,7 +57,7 @@ int DanhSachChuyenBay::data_import()
 	return 1;
 }
 
-int DanhSachChuyenBay::data_export()
+int QuanLyChuyenBay::data_export()
 {
 	std::ofstream out;
 	out.open("data/ChuyenBay.txt", std::ios::trunc);
@@ -91,7 +91,7 @@ int DanhSachChuyenBay::data_export()
 	return 1;
 }
 
-void DanhSachChuyenBay::insert(ChuyenBay value)
+void QuanLyChuyenBay::insert(ChuyenBay value)
 {
 	SoLuongChuyenBay++;
 
@@ -111,7 +111,7 @@ void DanhSachChuyenBay::insert(ChuyenBay value)
 	}
 }
 
-void DanhSachChuyenBay::update_byposition(int pos, ChuyenBay value)
+void QuanLyChuyenBay::update_byposition(int pos, ChuyenBay value)
 {
 	node_ChuyenBay * current = new node_ChuyenBay;
 	current = head;
@@ -122,7 +122,7 @@ void DanhSachChuyenBay::update_byposition(int pos, ChuyenBay value)
 	current->data = value;
 }
 
-void DanhSachChuyenBay::delete_byposition(int pos)
+void QuanLyChuyenBay::delete_byposition(int pos)
 {
 	SoLuongChuyenBay--;
 
@@ -145,7 +145,7 @@ void DanhSachChuyenBay::delete_byposition(int pos)
 	previous->next = current->next;
 }
 
-ChuyenBay DanhSachChuyenBay::get_byposition(int pos)
+ChuyenBay QuanLyChuyenBay::get_byposition(int pos)
 {
 	node_ChuyenBay *current = new node_ChuyenBay;
 	current = head;
@@ -156,7 +156,7 @@ ChuyenBay DanhSachChuyenBay::get_byposition(int pos)
 	return current->data;
 }
 
-ChuyenBay * DanhSachChuyenBay::get_bymachuyenbay(std::string machuyenbay)
+ChuyenBay * QuanLyChuyenBay::get_bymachuyenbay(std::string machuyenbay)
 {
 	ChuyenBay * res = new ChuyenBay();
 
@@ -174,43 +174,61 @@ ChuyenBay * DanhSachChuyenBay::get_bymachuyenbay(std::string machuyenbay)
 	return NULL;
 }
 
-MayBay * DanhSachChuyenBay::getMayBay_bymachuyenbay(std::string machuyenbay)
+MayBay * QuanLyChuyenBay::getMayBay_bymachuyenbay(std::string machuyenbay)
 {
 	ChuyenBay * chuyenbay = get_bymachuyenbay(machuyenbay);
 
 	if (chuyenbay == NULL)
 		return NULL;
 
-	DanhSachMayBay * dsmaybay = DanhSachMayBay::getinstance();
+	QuanLyMayBay * dsmaybay = QuanLyMayBay::getinstance();
 	MayBay * maybay = dsmaybay->getBy_SoHieuMayBay(chuyenbay->SoHieuMayBay);
 
 	return maybay;
 }
 
-bool DanhSachChuyenBay::isMaHopLe(string str)
+std::vector<ChuyenBay> QuanLyChuyenBay::getAll(ThoiGian t, std::string sanbayden)
+{
+	std::vector<ChuyenBay> result;
+	node_ChuyenBay * temp = new node_ChuyenBay;
+	temp = head;
+
+	while (temp != NULL) {
+		if (temp->data.NgayKhoiHanh.Nam == t.Nam && temp->data.NgayKhoiHanh.Thang == t.Thang && temp->data.NgayKhoiHanh.Ngay == t.Ngay
+			&& temp->data.SanBayDen == sanbayden) {
+			result.push_back(temp->data);
+		}
+
+		temp = temp->next;
+	}
+
+	return result;
+}
+
+bool QuanLyChuyenBay::isMaHopLe(string str)
 {
 	return str.size() > 0 && str.size() <= 15;
 }
 
-bool DanhSachChuyenBay::isSoHieuMayBayHopLe(std::string str)
+bool QuanLyChuyenBay::isSoHieuMayBayHopLe(std::string str)
 {
 	if (!(str.size() > 0 && str.size() <= 15))
 		return 0;
 
 	// kiểm tra ma máy bay có tồn tại hay không
-	DanhSachMayBay * dsmaybay = DanhSachMayBay::getinstance();
+	QuanLyMayBay * dsmaybay = QuanLyMayBay::getinstance();
 	if (!dsmaybay->getBy_SoHieuMayBay(str))
 		return 0;
 
 	return 1;
 }
 
-bool DanhSachChuyenBay::isSanBayDenHopLe(std::string str)
+bool QuanLyChuyenBay::isSanBayDenHopLe(std::string str)
 {
 	return str.size() > 0;
 }
 
-bool DanhSachChuyenBay::isNgayKhoiHanhHopLe(ThoiGian tg)
+bool QuanLyChuyenBay::isNgayKhoiHanhHopLe(ThoiGian tg)
 {
 	std::time_t t = std::time(0);   // get time now
 	std::tm* now = std::localtime(&t);
@@ -224,7 +242,7 @@ bool DanhSachChuyenBay::isNgayKhoiHanhHopLe(ThoiGian tg)
 	return 1;
 }
 
-bool DanhSachChuyenBay::isTrangThaiHopLe(std::string str)
+bool QuanLyChuyenBay::isTrangThaiHopLe(std::string str)
 {
 	for (int i = 0; i < str.size(); i++) {
 		if (!(str[i] >= '0' && str[i] <= '9'))
@@ -237,7 +255,7 @@ bool DanhSachChuyenBay::isTrangThaiHopLe(std::string str)
 	return 1;
 }
 
-int DanhSachChuyenBay::Menu()
+int QuanLyChuyenBay::Menu()
 {
 	while (1) {
 		Clrscr();
@@ -294,7 +312,7 @@ int DanhSachChuyenBay::Menu()
 	}
 }
 
-void DanhSachChuyenBay::ShowList()
+void QuanLyChuyenBay::ShowList()
 {
 	int lineStart = 12;
 	GotoXY(5, lineStart); SetColor(colorYellow); cout << ">> Danh sach chuyen bay:";
@@ -323,12 +341,12 @@ void DanhSachChuyenBay::ShowList()
 	}
 }
 
-void DanhSachChuyenBay::ShowTime(ThoiGian c)
+void QuanLyChuyenBay::ShowTime(ThoiGian c)
 {
 	cout << c.Nam << "/" << c.Thang << "/" << c.Ngay << " " << c.Gio << ":" << c.Phut;
 }
 
-void DanhSachChuyenBay::ShowState(int state)
+void QuanLyChuyenBay::ShowState(int state)
 {
 	switch (state)
 	{
@@ -341,7 +359,7 @@ void DanhSachChuyenBay::ShowState(int state)
 	}
 }
 
-int DanhSachChuyenBay::Add()
+int QuanLyChuyenBay::Add()
 {
 	Clrscr();
 	GotoXY(0, 0); SetColor(colorGreen); cout << "THEM CHUYEN BAY";
@@ -457,7 +475,7 @@ int DanhSachChuyenBay::Add()
 	}
 }
 
-int DanhSachChuyenBay::Modify()
+int QuanLyChuyenBay::Modify()
 {
 	int choose = -1;
 
@@ -575,7 +593,7 @@ int DanhSachChuyenBay::Modify()
 	}
 }
 
-int DanhSachChuyenBay::Delete()
+int QuanLyChuyenBay::Delete()
 {
 	int choose = -1;
 
@@ -608,7 +626,7 @@ int DanhSachChuyenBay::Delete()
 	}
 }
 
-int DanhSachChuyenBay::Export()
+int QuanLyChuyenBay::Export()
 {
 	if (data_export() == -1) {
 		SetColor(colorRed); cout << "ERROR: Loi xuat file!" << endl;

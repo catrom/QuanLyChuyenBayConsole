@@ -37,4 +37,4 @@ void SetColor(int color);
 // 
 using namespace std;
 int StringToInteger(std::string s);
-void LineStandardize(std::string s);
+std::string LineStandardize(std::string s);

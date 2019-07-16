@@ -7,17 +7,17 @@ struct node_Ve
 	node_Ve *next;
 };
 
-struct DanhSachVe
+struct QuanLyVe
 {
 private:
 	int SoLuongVe;
 	node_Ve *head, *tail;
 
 public:
-	static DanhSachVe* _instance;
-	DanhSachVe();
+	static QuanLyVe* _instance;
+	QuanLyVe();
 
-	static DanhSachVe * getinstance();
+	static QuanLyVe * getinstance();
 	int data_import();
 	int data_export();
 

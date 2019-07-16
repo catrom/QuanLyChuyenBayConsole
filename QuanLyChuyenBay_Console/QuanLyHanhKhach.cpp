@@ -1,25 +1,25 @@
 #include "QuanLyHanhKhach.h"
 
-DanhSachHanhKhach * DanhSachHanhKhach::_instance = NULL;
+QuanLyHanhKhach * QuanLyHanhKhach::_instance = NULL;
 
-DanhSachHanhKhach::DanhSachHanhKhach()
+QuanLyHanhKhach::QuanLyHanhKhach()
 {
 	SoLuongHanhKhach = 0;
 	root = NULL;
 }
 
-DanhSachHanhKhach::~DanhSachHanhKhach()
+QuanLyHanhKhach::~QuanLyHanhKhach()
 {
 	root = clear(root);
 }
 
-DanhSachHanhKhach * DanhSachHanhKhach::getinstance()
+QuanLyHanhKhach * QuanLyHanhKhach::getinstance()
 {
-	if (_instance == NULL) _instance = new DanhSachHanhKhach();
+	if (_instance == NULL) _instance = new QuanLyHanhKhach();
 	return _instance;
 }
 
-int DanhSachHanhKhach::data_import()
+int QuanLyHanhKhach::data_import()
 {
 	std::ifstream in;
 	in.open("data/HanhKhach.txt");
@@ -57,7 +57,7 @@ int DanhSachHanhKhach::data_import()
 	return 1;
 }
 
-int DanhSachHanhKhach::data_export()
+int QuanLyHanhKhach::data_export()
 {
 	std::ofstream out;
 	out.open("data/HanhKhach.txt", std::ios::trunc);
@@ -75,7 +75,7 @@ int DanhSachHanhKhach::data_export()
 	return 1;
 }
 
-void DanhSachHanhKhach::recursion_data_export(std::ofstream & out, node_HanhKhach * t)
+void QuanLyHanhKhach::recursion_data_export(std::ofstream & out, node_HanhKhach * t)
 {
 	if (t == NULL)
 		return;
@@ -89,7 +89,7 @@ void DanhSachHanhKhach::recursion_data_export(std::ofstream & out, node_HanhKhac
 	recursion_data_export(out, t->right);
 }
 
-node_HanhKhach* DanhSachHanhKhach::clear(node_HanhKhach* t)
+node_HanhKhach* QuanLyHanhKhach::clear(node_HanhKhach* t)
 {
 	if (t == NULL)
 		return NULL;
@@ -101,7 +101,7 @@ node_HanhKhach* DanhSachHanhKhach::clear(node_HanhKhach* t)
 	return NULL;
 }
 
-node_HanhKhach* DanhSachHanhKhach::insert(HanhKhach x, node_HanhKhach* t)
+node_HanhKhach* QuanLyHanhKhach::insert(HanhKhach x, node_HanhKhach* t)
 {
 	if (t == NULL)
 	{
@@ -118,7 +118,7 @@ node_HanhKhach* DanhSachHanhKhach::insert(HanhKhach x, node_HanhKhach* t)
 	return t;
 }
 
-node_HanhKhach* DanhSachHanhKhach::findMin(node_HanhKhach* t)
+node_HanhKhach* QuanLyHanhKhach::findMin(node_HanhKhach* t)
 {
 	if (t == NULL)
 		return NULL;
@@ -128,7 +128,7 @@ node_HanhKhach* DanhSachHanhKhach::findMin(node_HanhKhach* t)
 		return findMin(t->left);
 }
 
-node_HanhKhach* DanhSachHanhKhach::findMax(node_HanhKhach* t)
+node_HanhKhach* QuanLyHanhKhach::findMax(node_HanhKhach* t)
 {
 	if (t == NULL)
 		return NULL;
@@ -138,7 +138,7 @@ node_HanhKhach* DanhSachHanhKhach::findMax(node_HanhKhach* t)
 		return findMax(t->right);
 }
 
-node_HanhKhach* DanhSachHanhKhach::remove(HanhKhach x, node_HanhKhach* t)
+node_HanhKhach* QuanLyHanhKhach::remove(HanhKhach x, node_HanhKhach* t)
 {
 	node_HanhKhach* temp;
 	if (t == NULL)
@@ -166,7 +166,7 @@ node_HanhKhach* DanhSachHanhKhach::remove(HanhKhach x, node_HanhKhach* t)
 	return t;
 }
 
-node_HanhKhach* DanhSachHanhKhach::find(node_HanhKhach* t, long soCMND)
+node_HanhKhach* QuanLyHanhKhach::find(node_HanhKhach* t, long soCMND)
 {
 	if (t == NULL)
 		return NULL;
@@ -178,7 +178,7 @@ node_HanhKhach* DanhSachHanhKhach::find(node_HanhKhach* t, long soCMND)
 		return t;
 }
 
-HanhKhach * DanhSachHanhKhach::Find(long soCMND)
+HanhKhach * QuanLyHanhKhach::Find(long soCMND)
 {
 	node_HanhKhach * result = find(root, soCMND);
 
@@ -191,17 +191,17 @@ HanhKhach * DanhSachHanhKhach::Find(long soCMND)
 	return hanhkhach;
 }
 
-void DanhSachHanhKhach::Insert(HanhKhach x)
+void QuanLyHanhKhach::Insert(HanhKhach x)
 {
 	insert(x, root);
 }
 
-void DanhSachHanhKhach::Out()
+void QuanLyHanhKhach::Out()
 {
 	NLR(root);
 }
 
-void DanhSachHanhKhach::NLR(node_HanhKhach * t)
+void QuanLyHanhKhach::NLR(node_HanhKhach * t)
 {
 	if (t == NULL)
 		return;

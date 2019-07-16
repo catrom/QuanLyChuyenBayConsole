@@ -1,17 +1,17 @@
 #pragma once
 #include "Objects.h"
 
-struct DanhSachMayBay
+struct QuanLyMayBay
 {
 private:
 	int SoLuongMayBay;
 	MayBay* DanhSach[300];
 
 public:
-	static DanhSachMayBay* _instance;
-	DanhSachMayBay();
+	static QuanLyMayBay* _instance;
+	QuanLyMayBay();
 
-	static DanhSachMayBay * getinstance();
+	static QuanLyMayBay * getinstance();
 	int data_import();
 	int data_export();
 

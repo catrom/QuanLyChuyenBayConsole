@@ -8,19 +8,19 @@ struct node_HanhKhach
 	node_HanhKhach* right;
 };
 
-struct DanhSachHanhKhach
+struct QuanLyHanhKhach
 {
 private:
 	int SoLuongHanhKhach;
 	node_HanhKhach* root;
 
 public:
-	static DanhSachHanhKhach* _instance;
+	static QuanLyHanhKhach* _instance;
 
-	DanhSachHanhKhach();
-	~DanhSachHanhKhach();
+	QuanLyHanhKhach();
+	~QuanLyHanhKhach();
 
-	static DanhSachHanhKhach * getinstance();
+	static QuanLyHanhKhach * getinstance();
 	int data_import();
 	int data_export();
 	void recursion_data_export(std::ofstream &out, node_HanhKhach* t);

@@ -1,19 +1,19 @@
 ﻿#include "QuanLyMayBay.h"
 
-DanhSachMayBay * DanhSachMayBay::_instance = NULL;
+QuanLyMayBay * QuanLyMayBay::_instance = NULL;
 
-DanhSachMayBay::DanhSachMayBay()
+QuanLyMayBay::QuanLyMayBay()
 {
 	SoLuongMayBay = 0;
 }
 
-DanhSachMayBay * DanhSachMayBay::getinstance()
+QuanLyMayBay * QuanLyMayBay::getinstance()
 {
-	if (_instance == NULL) _instance = new DanhSachMayBay();
+	if (_instance == NULL) _instance = new QuanLyMayBay();
 	return _instance;
 }
 
-int DanhSachMayBay::data_import()
+int QuanLyMayBay::data_import()
 {
 	std::ifstream in;
 	in.open("data/MayBay.txt");
@@ -47,7 +47,7 @@ int DanhSachMayBay::data_import()
 	return 1;
 }
 
-int DanhSachMayBay::data_export()
+int QuanLyMayBay::data_export()
 {
 	std::ofstream out;
 	out.open("data/MayBay.txt", std::ios::trunc);
@@ -70,13 +70,13 @@ int DanhSachMayBay::data_export()
 	return 1;
 }
 
-void DanhSachMayBay::add(MayBay * value)
+void QuanLyMayBay::add(MayBay * value)
 {
 	DanhSach[SoLuongMayBay] = value;
 	SoLuongMayBay++;
 }
 
-void DanhSachMayBay::delete_byposition(int i)
+void QuanLyMayBay::delete_byposition(int i)
 {
 	for (int j = i; j < SoLuongMayBay - 1; j++)
 	{
@@ -86,24 +86,24 @@ void DanhSachMayBay::delete_byposition(int i)
 	SoLuongMayBay--;
 }
 
-void DanhSachMayBay::update_byposition(int i, MayBay * value)
+void QuanLyMayBay::update_byposition(int i, MayBay * value)
 {
 	DanhSach[i]->LoaiMayBay = value->LoaiMayBay;
 	DanhSach[i]->SoDay = value->SoDay;
 	DanhSach[i]->SoDong = value->SoDong;
 }
 
-bool DanhSachMayBay::isSoHieuHopLe(string str)
+bool QuanLyMayBay::isSoHieuHopLe(string str)
 {
 	return str.size() > 0 && str.size() <= 15;
 }
 
-bool DanhSachMayBay::isLoaiHopLe(string str)
+bool QuanLyMayBay::isLoaiHopLe(string str)
 {
 	return str.size() > 0 && str.size() <= 40;
 }
 
-bool DanhSachMayBay::isSoDayHopLe(string str)
+bool QuanLyMayBay::isSoDayHopLe(string str)
 {
 	for (int i = 0; i < str.size(); i++) {
 		if (!(str[i] >= '0' && str[i] <= '9'))
@@ -113,7 +113,7 @@ bool DanhSachMayBay::isSoDayHopLe(string str)
 	return true;
 }
 
-bool DanhSachMayBay::isSoDongHopLe(string str)
+bool QuanLyMayBay::isSoDongHopLe(string str)
 {
 	for (int i = 0; i < str.size(); i++) {
 		if (!(str[i] >= '0' && str[i] <= '9'))
@@ -123,7 +123,7 @@ bool DanhSachMayBay::isSoDongHopLe(string str)
 	return true;
 }
 
-MayBay * DanhSachMayBay::getBy_SoHieuMayBay(std::string sohieu)
+MayBay * QuanLyMayBay::getBy_SoHieuMayBay(std::string sohieu)
 {
 	for (int i = 0; i < SoLuongMayBay; i++) {
 		if (DanhSach[i]->SoHieuMayBay == sohieu)
@@ -133,7 +133,7 @@ MayBay * DanhSachMayBay::getBy_SoHieuMayBay(std::string sohieu)
 	return NULL;
 }
 
-int DanhSachMayBay::Menu()
+int QuanLyMayBay::Menu()
 {
 	while (1) {
 		Clrscr();
@@ -190,7 +190,7 @@ int DanhSachMayBay::Menu()
 	}
 }
 
-void DanhSachMayBay::ShowList()
+void QuanLyMayBay::ShowList()
 {
 	int lineStart = 12;
 	GotoXY(5, lineStart); SetColor(colorYellow); cout << ">> Danh sach may bay:";
@@ -216,7 +216,7 @@ void DanhSachMayBay::ShowList()
 	}
 }
 
-int DanhSachMayBay::Add()
+int QuanLyMayBay::Add()
 {
 	Clrscr();
 	GotoXY(0, 0); SetColor(colorGreen); cout << "THEM MAY BAY";
@@ -316,7 +316,7 @@ int DanhSachMayBay::Add()
 	}
 }
 
-int DanhSachMayBay::Modify()
+int QuanLyMayBay::Modify()
 {
 	int choose = -1;
 
@@ -467,7 +467,7 @@ int DanhSachMayBay::Modify()
 	}
 }
 
-int DanhSachMayBay::Delete()
+int QuanLyMayBay::Delete()
 {
 	int choose = -1;
 
@@ -500,7 +500,7 @@ int DanhSachMayBay::Delete()
 	}
 }
 
-int DanhSachMayBay::Export()
+int QuanLyMayBay::Export()
 {
 	if (data_export() == -1) {
 		SetColor(colorRed); cout << "ERROR: Loi xuat file!" << endl;
