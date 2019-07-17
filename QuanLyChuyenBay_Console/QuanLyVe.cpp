@@ -193,6 +193,9 @@ int QuanLyVe::KiemTraMaChuyenBay(std::string str)
 
 int QuanLyVe::KiemTraSoCMND(std::string str)
 {
+	if (str.size() == 0)
+		return 0;
+
 	for (int i = 0; i < str.size(); i++) {
 		if (!(str[i] >= '0' && str[i] <= '9')) {
 			ClrLine(7); GotoXY(0, 7); SetColor(colorRed); cout << "ERROR: So CMND khong hop le!";
@@ -255,14 +258,9 @@ bool QuanLyVe::isHoTenHopLe(std::string str)
 	return str.size() > 0;
 }
 
-bool QuanLyVe::isPhaiHopLe(std::string str)
+bool QuanLyVe::isPhaiHopLe(int phai)
 {
-	for (int i = 0; i < str.size(); i++) {
-		if (!(str[i] >= '0' && str[i] <= '9'))
-			return 0;
-	}
-
-	if (StringToInteger(str) < 0 || StringToInteger(str) > 1)
+	if (phai < 0 || phai > 1)
 		return 0;
 
 	return 1;
@@ -312,34 +310,41 @@ int QuanLyVe::Menu()
 
 			SetCursorVisible(1);
 			ClrLine(7); GotoXY(0, 7); SetColor(colorWhite); cout << "-> ";
-			cin >> choose;
 
-			switch (choose)
-			{
-			case 1:
-				if (Add() == -1) {
-					rollBack = 1;
-					break;
-				}
-			case 2:
-				if (Remove() == -1) {
-					rollBack = 1;
-					break;
-				}
-			case 3:
-				if (Export() == -1) {
-					rollBack = 1;
-					break;
-				}
-			case 4:
-				return -1;
-			default:
-				SetColor(colorRed); cout << "ERROR: Input khong hop le!" << endl;
-				break;
+			input->GetInput();
+			if (!input->isInteger()) {
+				ClrLine(8); GotoXY(0, 8); SetColor(colorRed); cout << "ERROR: Input khong hop le!" << endl;
 			}
+			else {
+				choose = StringToInteger(input->GetResult());
 
-			if (rollBack == 1)
-				break;
+				switch (choose)
+				{
+				case 1:
+					if (Add() == -1) {
+						rollBack = 1;
+						break;
+					}
+				case 2:
+					if (Remove() == -1) {
+						rollBack = 1;
+						break;
+					}
+				case 3:
+					if (Export() == -1) {
+						rollBack = 1;
+						break;
+					}
+				case 4:
+					return -1;
+				default:
+					ClrLine(8); GotoXY(0, 8); SetColor(colorRed); cout << "ERROR: Input khong hop le!" << endl;
+					break;
+				}
+
+				if (rollBack == 1)
+					break;
+			}
 		}
 	}
 }
@@ -347,7 +352,6 @@ int QuanLyVe::Menu()
 int QuanLyVe::Add()
 {
 	Clrscr();
-	cin.ignore();
 	GotoXY(0, 0); SetColor(colorHeader); cout << "DAT VE";
 
 	Ve * ve = new Ve();
@@ -358,7 +362,9 @@ int QuanLyVe::Add()
 	while (1) {
 		ClrLine(3);
 		GotoXY(10, 3); SetColor(colorYellow);
-		getline(cin, ve->MaChuyenBay);
+		
+		if (input->GetInput() == -1) return -1;
+		ve->MaChuyenBay = input->GetResult();
 
 		ketqua = KiemTraMaChuyenBay(ve->MaChuyenBay);
 		
@@ -375,7 +381,9 @@ int QuanLyVe::Add()
 		ClrLine(6);
 		string soCMND;
 		GotoXY(10, 6); SetColor(colorYellow);
-		getline(cin, soCMND);
+		
+		if (input->GetInput() == -1) return -1;
+		soCMND = input->GetResult();
 
 		ketqua = KiemTraSoCMND(soCMND);
 
@@ -404,7 +412,10 @@ int QuanLyVe::Add()
 		while (1) {
 			ClrLine(8);
 			GotoXY(10, 8); SetColor(colorWhite); cout << "* Nhap ho: ";
-			SetColor(colorYellow); getline(cin, hanhkhach->Ho);
+			SetColor(colorYellow); 
+
+			if (input->GetInput() == -1) return -1;
+			hanhkhach->Ho = input->GetResult();
 
 			if (!isHoTenHopLe(hanhkhach->Ho)) {
 				ClrLine(9); GotoXY(0, 9); SetColor(colorRed); cout << "ERROR: Input khong hop le!";
@@ -419,7 +430,10 @@ int QuanLyVe::Add()
 		while (1) {
 			ClrLine(9);
 			GotoXY(10, 9); SetColor(colorWhite); cout << "* Nhap ten: ";
-			SetColor(colorYellow); getline(cin, hanhkhach->Ten);
+			SetColor(colorYellow); 
+			
+			if (input->GetInput() == -1) return -1;
+			hanhkhach->Ten = input->GetResult();
 
 			if (!isHoTenHopLe(hanhkhach->Ten)) {
 				ClrLine(10); GotoXY(0, 10); SetColor(colorRed); cout << "ERROR: Input khong hop le!";
@@ -432,19 +446,26 @@ int QuanLyVe::Add()
 
 		// Nhap phai
 		while (1) {
-			string phai;
+			int iphai;
 			ClrLine(10);
 			GotoXY(10, 10); SetColor(colorWhite); cout << "* Nhap phai (0: Nam, 1: Nu): ";
-			SetColor(colorYellow); getline(cin, phai);
+			SetColor(colorYellow);
 
-			if (!isPhaiHopLe(phai)) {
+			if (input->GetInput() == -1) return -1;
+			if (!input->isInteger()) {
 				ClrLine(11); GotoXY(0, 11); SetColor(colorRed); cout << "ERROR: Input khong hop le!";
 			}
 			else {
-				int iphai = StringToInteger(phai);
-				hanhkhach->Phai = (iphai == 0 ? "Nam" : "Nu");
-				ClrLine(11);
-				break;
+				iphai = StringToInteger(input->GetResult());
+
+				if (!isPhaiHopLe(iphai)) {
+					ClrLine(11); GotoXY(0, 11); SetColor(colorRed); cout << "ERROR: Input khong hop le!";
+				}
+				else {
+					hanhkhach->Phai = (iphai == 0 ? "Nam" : "Nu");
+					ClrLine(11);
+					break;
+				}
 			}
 		}
 
@@ -467,7 +488,10 @@ int QuanLyVe::Add()
 		string day;
 		ClrLine(linestart + 1);
 		GotoXY(10, linestart + 1); 
-		SetColor(colorYellow); getline(cin, day);
+		SetColor(colorYellow);
+
+		if (input->GetInput() == -1) return -1;
+		day = input->GetResult();
 
 		if (!isViTriDayHopLe(day, maybay->SoDay)) {
 			ClrLine(linestart + 2); GotoXY(0, linestart + 2); SetColor(colorRed); cout << "ERROR: Input khong hop le!";
@@ -486,7 +510,10 @@ int QuanLyVe::Add()
 		string dong;
 		ClrLine(linestart + 4);
 		GotoXY(10, linestart + 4);
-		SetColor(colorYellow); getline(cin, dong);
+		SetColor(colorYellow); 
+
+		if (input->GetInput() == -1) return -1;
+		dong = input->GetResult();
 
 		if (!isViTriDongHopLe(dong, maybay->SoDong)) {
 			ClrLine(linestart + 5); GotoXY(0, linestart + 5); SetColor(colorRed); cout << "ERROR: Input khong hop le!";
@@ -517,20 +544,27 @@ int QuanLyVe::Add()
 	while (1) {
 		SetCursorVisible(1);
 		ClrLine(linestart + 9); GotoXY(0, linestart + 9); SetColor(colorWhite); cout << "-> ";
-		cin >> choose;
+		
+		if (input->GetInput() == -1) return -1;
+		if (!input->isInteger()) {
+			GotoXY(0, linestart + 10); SetColor(colorRed); cout << "ERROR: Input khong hop le!";
+		}
+		else {
+			choose = StringToInteger(input->GetResult());
 
-		switch (choose)
-		{
-		case 1:
-			add(*ve);
-			GotoXY(0, linestart + 10); SetColor(colorCyan); cout << "INFO: Them thanh cong!";
-			Sleep(2000);
-			return -1;
-		case 2:
-			return -1;
-		default:
-			GotoXY(0, linestart + 10); SetColor(colorRed); cout << "ERROR: Input khong hop le!" << endl;
-			break;
+			switch (choose)
+			{
+			case 1:
+				add(*ve);
+				GotoXY(0, linestart + 10); SetColor(colorCyan); cout << "INFO: Them thanh cong!";
+				Sleep(2000);
+				return -1;
+			case 2:
+				return -1;
+			default:
+				GotoXY(0, linestart + 10); SetColor(colorRed); cout << "ERROR: Input khong hop le!" << endl;
+				break;
+			}
 		}
 	}
 }
@@ -538,7 +572,6 @@ int QuanLyVe::Add()
 int QuanLyVe::Remove()
 {
 	Clrscr();
-	cin.ignore();
 	GotoXY(0, 0); SetColor(colorHeader); cout << "HUY VE";
 
 	string machuyenbay;
@@ -550,7 +583,9 @@ int QuanLyVe::Remove()
 	while (1) {
 		ClrLine(3);
 		GotoXY(10, 3); SetColor(colorYellow);
-		getline(cin, machuyenbay);
+		
+		if (input->GetInput() == -1) return -1;
+		machuyenbay = input->GetResult();
 
 		ketqua = KiemTraMaChuyenBay(machuyenbay);
 
@@ -565,7 +600,9 @@ int QuanLyVe::Remove()
 	while (1) {
 		ClrLine(6);
 		GotoXY(10, 6); SetColor(colorYellow);
-		getline(cin, soCMND);
+
+		if (input->GetInput() == -1) return -1;
+		soCMND = input->GetResult();
 
 		ketqua = KiemTraSoCMND(soCMND);
 
@@ -578,7 +615,7 @@ int QuanLyVe::Remove()
 	Ve * ve = find(machuyenbay, StringToInteger(soCMND));
 
 	if (ve == NULL) { // ve khong ton tai
-		GotoXY(0, 7); SetColor(colorRed); cout << "ERROR: Ve khong ton tai!";
+		ClrLine(7); GotoXY(0, 7); SetColor(colorRed); cout << "ERROR: Ve khong ton tai!";
 		getchar();
 		return -1;
 	}
@@ -598,7 +635,6 @@ int QuanLyVe::Remove()
 			return -1;
 		}
 		else if (c == 'N' || c == 'n') {
-			cin.ignore();
 			return -1;
 		}
 	}
@@ -608,11 +644,13 @@ int QuanLyVe::Export()
 {
 	QuanLyHanhKhach * dshanhkhach = QuanLyHanhKhach::getinstance();
 	if (data_export() == -1 || dshanhkhach->data_export() == -1) {
+		ClrLine(8); GotoXY(0, 8);
 		SetColor(colorRed); cout << "ERROR: Loi xuat file!" << endl;
 		Sleep(2000);
 		return -1;
 	}
 	else {
+		ClrLine(8); GotoXY(0, 8);
 		SetColor(colorCyan); cout << "INFO: Xuat danh sach thanh cong ";
 		SetColor(colorYellow); cout << "...data/Ve.txt";
 		Sleep(2000);

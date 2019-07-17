@@ -383,7 +383,7 @@ int QuanLyMayBay::Modify()
 					}
 					else if (c == 'N' || c == 'n') {
 						ClrLine(5);
-						cin.ignore();
+						//cin.ignore();
 						break;
 					}
 
@@ -525,7 +525,7 @@ int QuanLyMayBay::Delete()
 						return -1;
 					}
 					else if (c == 'N' || c == 'n') {
-						cin.ignore();
+						//cin.ignore();
 						return -1;
 					}
 				}
@@ -537,11 +537,13 @@ int QuanLyMayBay::Delete()
 int QuanLyMayBay::Export()
 {
 	if (data_export() == -1) {
+		ClrLine(9); GotoXY(0, 9);
 		SetColor(colorRed); cout << "ERROR: Loi xuat file!" << endl;
 		Sleep(2000);
 		return -1;
 	}
 	else {
+		ClrLine(9); GotoXY(0, 9);
 		SetColor(colorCyan); cout << "INFO: Xuat danh sach thanh cong ";
 		SetColor(colorYellow); cout << "...data/MayBay.txt";
 		Sleep(2000);

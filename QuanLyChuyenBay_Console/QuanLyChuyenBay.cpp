@@ -574,7 +574,7 @@ int QuanLyChuyenBay::Modify()
 									ClrLine(8); GotoXY(0, 8); SetColor(colorRed); cout << "ERROR: Ngay khoi hanh khong hop le!";
 								}
 								else {
-									cin.ignore();
+									//cin.ignore();
 									chuyenbay->NgayKhoiHanh.Nam = split[0];
 									chuyenbay->NgayKhoiHanh.Thang = split[1];
 									chuyenbay->NgayKhoiHanh.Ngay = split[2];
@@ -718,11 +718,12 @@ int QuanLyChuyenBay::Delete()
 int QuanLyChuyenBay::Export()
 {
 	if (data_export() == -1) {
-		SetColor(colorRed); cout << "ERROR: Loi xuat file!" << endl;
+		ClrLine(9); GotoXY(0, 9); SetColor(colorRed); cout << "ERROR: Loi xuat file!" << endl;
 		Sleep(2000);
 		return -1;
 	}
 	else {
+		ClrLine(9); GotoXY(0, 9);
 		SetColor(colorCyan); cout << "INFO: Xuat danh sach thanh cong ";
 		SetColor(colorYellow); cout << "...data/ChuyenBay.txt";
 		Sleep(2000);

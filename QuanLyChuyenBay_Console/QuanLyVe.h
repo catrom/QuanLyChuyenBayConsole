@@ -31,7 +31,7 @@ public:
 	int KiemTraDieuKienDatVe(std::string machuyenbay, long soCMND); // mỗi hành khách chỉ được đặt 1 vé trên chuyến bay
 	int KiemTraViTriHopLe(int vitriday, int vitrihang); // kiểm tra số ghế có bị trùng lúc đặt hay không
 	bool isHoTenHopLe(std::string str);
-	bool isPhaiHopLe(std::string str);
+	bool isPhaiHopLe(int phai);
 	bool isViTriDayHopLe(std::string str, int soday);
 	bool isViTriDongHopLe(std::string str, int sodong);
 
