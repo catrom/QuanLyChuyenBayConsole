@@ -36,7 +36,7 @@ public:
 	bool isSoHieuMayBayHopLe(std::string str);
 	bool isSanBayDenHopLe(std::string str);
 	bool isNgayKhoiHanhHopLe(ThoiGian tg);
-	bool isTrangThaiHopLe(std::string str);
+	bool isTrangThaiHopLe(int trangthai);
 
 	// display
 	int Menu();

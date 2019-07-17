@@ -146,7 +146,30 @@ bool Input::isInteger()
 	return 1;
 }
 
+bool Input::isListOfIntegers()
+{
+	for (int i = 0; i < result.size(); i++) {
+		if (!(result[i] >= '0' && result[i] <= '9') && result[i] != ' ')
+			return 0;
+	}
+
+	return 1;
+}
+
 bool Input::isString()
 {
 	return result.size() > 0;
+}
+
+std::vector<int> Input::splitIntegers()
+{
+	std::vector<int> list;
+	std::stringstream sstr(result);
+	std::string segment;
+
+	while (std::getline(sstr, segment, ' ')) {
+		list.push_back(StringToInteger(segment));
+	}
+
+	return list;
 }

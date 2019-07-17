@@ -51,7 +51,10 @@ public:
 	std::string GetResult();
 
 	bool isInteger();
+	bool isListOfIntegers();
 	bool isString();
+
+	std::vector<int> splitIntegers();
 };
 
 static Input * input = new Input;
