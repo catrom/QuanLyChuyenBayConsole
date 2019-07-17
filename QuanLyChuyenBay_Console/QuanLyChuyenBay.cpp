@@ -260,11 +260,12 @@ bool QuanLyChuyenBay::isNgayKhoiHanhHopLe(ThoiGian tg)
 	std::time_t t = std::time(0);   // get time now
 	std::tm* now = std::localtime(&t);
 
+	if (!tg.HopLe()) return 0;
+
+	// thời gian của chuyến bay phải >= ngày hiện tại
 	if (tg.Nam < now->tm_year + 1900) return 0;
 	if (tg.Thang < now->tm_mon + 1) return 0;
 	if ((tg.Thang == now->tm_mon + 1 && tg.Ngay < now->tm_mday)) return 0;
-	if (tg.Gio < 0 || tg.Gio > 23) return 0;
-	if (tg.Phut < 0 || tg.Phut > 59) return 0;
 	
 	return 1;
 }

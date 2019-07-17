@@ -245,7 +245,7 @@ int ThongKeBaoBieu::QuanLyChuyenBay()
 				ngaykhoihanh.Thang = split[1];
 				ngaykhoihanh.Ngay = split[2];
 
-				if (!QuanLyChuyenBay::getinstance()->isNgayKhoiHanhHopLe(ngaykhoihanh)) {
+				if (!ngaykhoihanh.HopLe()) {
 					ClrLine(10); GotoXY(0, 10); SetColor(colorRed); cout << "ERROR: Ngay khoi hanh khong hop le!";
 				}
 				else break;
