@@ -40,54 +40,62 @@ int ThongKeBaoBieu::Menu()
 
 			SetCursorVisible(1);
 			ClrLine(8); GotoXY(0, 8); SetColor(colorWhite); cout << "-> ";
-			cin >> choose;
-
-			switch (choose)
-			{
-			case 1:
-				if (QuanLyHanhKhach() == -1) {
-					rollBack = 1;
-					break;
-				}
-			case 2:
-				if (QuanLyChuyenBay() == -1) {
-					rollBack = 1;
-					break;
-				}
-			case 3:
-				if (QuanLyVeTrong() == -1) {
-					rollBack = 1;
-					break;
-				}
-			case 4:
-				if (SoLuotThucHienChuyenBay() == -1) {
-					rollBack = 1;
-					break;
-				}
-			case 5:
-				return -1;
-			default:
-				SetColor(colorRed); cout << "ERROR: Input khong hop le!" << endl;
-				break;
+			
+			input->GetInput();
+			if (!input->isInteger()) {
+				ClrLine(9); GotoXY(0, 9); SetColor(colorRed); cout << "ERROR: Input khong hop le!" << endl;
 			}
+			else {
+				choose = StringToInteger(input->GetResult());
 
-			if (rollBack == 1)
-				break;
+				switch (choose)
+				{
+				case 1:
+					if (QuanLyHanhKhach() == -1) {
+						rollBack = 1;
+						break;
+					}
+				case 2:
+					if (QuanLyChuyenBay() == -1) {
+						rollBack = 1;
+						break;
+					}
+				case 3:
+					if (QuanLyVeTrong() == -1) {
+						rollBack = 1;
+						break;
+					}
+				case 4:
+					if (SoLuotThucHienChuyenBay() == -1) {
+						rollBack = 1;
+						break;
+					}
+				case 5:
+					return -1;
+				default:
+					ClrLine(9); GotoXY(0, 9); SetColor(colorRed); cout << "ERROR: Input khong hop le!" << endl;
+					break;
+				}
+
+				if (rollBack == 1)
+					break;
+			}
 		}
 	}
 }
 
 int ThongKeBaoBieu::QuanLyHanhKhach()
 {
-	cin.ignore();
-
 	// Nhap ma chuyen bay
 	string machuyenbay;
 	ChuyenBay * chuyenbay;
 
 	while (1) {
 		ClrLine(9); GotoXY(0, 9); SetColor(colorWhite); cout << "Nhap ma chuyen bay: ";
-		SetColor(colorYellow); getline(cin, machuyenbay);
+		SetColor(colorYellow); 
+
+		if (input->GetInput() == -1) return -1;
+		machuyenbay = input->GetResult();
 
 		chuyenbay = KiemTraMaChuyenBay(machuyenbay);
 
@@ -119,27 +127,34 @@ int ThongKeBaoBieu::QuanLyHanhKhach()
 	while (1) {
 		SetCursorVisible(1);
 		ClrLine(3); GotoXY(0, 3); SetColor(colorWhite); cout << "-> ";
-		cin >> choose;
+		
+		if (input->GetInput() == -1) return -1;
+		if (!input->isInteger()) {
+			ClrLine(4); GotoXY(0, 4); SetColor(colorRed); cout << "ERROR: Input khong hop le!" << endl;
+		}
+		else {
+			choose = StringToInteger(input->GetResult());
 
-		switch (choose)
-		{
-		case 1:
-			if (ExportQuanLyHanhKhach(*chuyenbay, danhsachve, danhsachhanhkhach) == 1) {
-				GotoXY(0, 4);
-				SetColor(colorCyan); cout << "INFO: Xuat danh sach thanh cong ";
-				SetColor(colorYellow); cout << "...thongke/DanhSachHanhKhach.txt";
+			switch (choose)
+			{
+			case 1:
+				if (ExportQuanLyHanhKhach(*chuyenbay, danhsachve, danhsachhanhkhach) == 1) {
+					ClrLine(4); GotoXY(0, 4);
+					SetColor(colorCyan); cout << "INFO: Xuat danh sach thanh cong ";
+					SetColor(colorYellow); cout << "...thongke/DanhSachHanhKhach.txt";
+				}
+				else {
+					ClrLine(4); GotoXY(0, 4);
+					SetColor(colorRed); cout << "ERROR: Loi xuat file!" << endl;
+				}
+				Sleep(2000);
+				return -1;
+			case 2:
+				return -1;
+			default:
+				ClrLine(4); GotoXY(0, 4); SetColor(colorRed); cout << "ERROR: Input khong hop le!" << endl;
+				break;
 			}
-			else {
-				GotoXY(0, 4);
-				SetColor(colorRed); cout << "ERROR: Loi xuat file!" << endl;
-			}
-			Sleep(2000);
-			return -1;
-		case 2:
-			return -1;
-		default:
-			GotoXY(0, 4); SetColor(colorRed); cout << "ERROR: Input khong hop le!" << endl;
-			break;
 		}
 	}
 }
@@ -214,19 +229,37 @@ int ThongKeBaoBieu::QuanLyChuyenBay()
 	// Nhap ngay
 	while (1) {
 		ClrLine(9); GotoXY(0, 9); SetColor(colorWhite); cout << "Nhap ngay khoi hanh (yyyy mm dd): ";
-		SetColor(colorYellow); cin >> ngaykhoihanh.Nam >> ngaykhoihanh.Thang >> ngaykhoihanh.Ngay;
+		SetColor(colorYellow); 
 
-		if (!QuanLyChuyenBay::getinstance()->isNgayKhoiHanhHopLe(ngaykhoihanh)) {
-			ClrLine(10); GotoXY(0, 10); SetColor(colorRed); cout << "ERROR: Input khong hop le!";
+		if (input->GetInput() == -1) return -1;
+		if (!input->isListOfIntegers()) {
+			ClrLine(10); GotoXY(0, 10); SetColor(colorRed); cout << "ERROR: Ngay khoi hanh khong hop le!";
 		}
-		else break;
+		else {
+			std::vector<int> split = input->splitIntegers();
+			if (split.size() != 3) {
+				ClrLine(10); GotoXY(0, 10); SetColor(colorRed); cout << "ERROR: Ngay khoi hanh khong hop le!";
+			}
+			else {
+				ngaykhoihanh.Nam = split[0];
+				ngaykhoihanh.Thang = split[1];
+				ngaykhoihanh.Ngay = split[2];
+
+				if (!QuanLyChuyenBay::getinstance()->isNgayKhoiHanhHopLe(ngaykhoihanh)) {
+					ClrLine(10); GotoXY(0, 10); SetColor(colorRed); cout << "ERROR: Ngay khoi hanh khong hop le!";
+				}
+				else break;
+			}
+		}
 	}
 
 	// Nhap san bay den
-	cin.ignore();
 	while (1) {
 		ClrLine(10); GotoXY(0, 10); SetColor(colorWhite); cout << "Nhap san bay den: ";
-		SetColor(colorYellow); getline(cin, sanbayden);
+		SetColor(colorYellow); 
+
+		if (input->GetInput() == -1) return -1;
+		sanbayden = input->GetResult();
 
 		if (!QuanLyChuyenBay::getinstance()->isSanBayDenHopLe(sanbayden)) {
 			ClrLine(11); GotoXY(0, 11); SetColor(colorRed); cout << "ERROR: Input khong hop le!";
@@ -261,27 +294,34 @@ int ThongKeBaoBieu::QuanLyChuyenBay()
 	while (1) {
 		SetCursorVisible(1);
 		ClrLine(3); GotoXY(0, 3); SetColor(colorWhite); cout << "-> ";
-		cin >> choose;
+		
+		if (input->GetInput() == -1) return -1;
+		if (!input->isInteger()) {
+			ClrLine(4); GotoXY(0, 4); SetColor(colorRed); cout << "ERROR: Input khong hop le!" << endl;
+		}
+		else {
+			choose = StringToInteger(input->GetResult());
 
-		switch (choose)
-		{
-		case 1:
-			if (ExportQuanLyChuyenBay(ngaykhoihanh, sanbayden, danhsachchuyenbay) == 1) {
-				GotoXY(0, 4);
-				SetColor(colorCyan); cout << "INFO: Xuat danh sach thanh cong ";
-				SetColor(colorYellow); cout << "...thongke/DanhSachChuyenBay.txt";
+			switch (choose)
+			{
+			case 1:
+				if (ExportQuanLyChuyenBay(ngaykhoihanh, sanbayden, danhsachchuyenbay) == 1) {
+					GotoXY(0, 4);
+					SetColor(colorCyan); cout << "INFO: Xuat danh sach thanh cong ";
+					SetColor(colorYellow); cout << "...thongke/DanhSachChuyenBay.txt";
+				}
+				else {
+					GotoXY(0, 4);
+					SetColor(colorRed); cout << "ERROR: Loi xuat file!" << endl;
+				}
+				Sleep(2000);
+				return -1;
+			case 2:
+				return -1;
+			default:
+				ClrLine(4); GotoXY(0, 4); SetColor(colorRed); cout << "ERROR: Input khong hop le!" << endl;
+				break;
 			}
-			else {
-				GotoXY(0, 4);
-				SetColor(colorRed); cout << "ERROR: Loi xuat file!" << endl;
-			}
-			Sleep(2000);
-			return -1;
-		case 2:
-			return -1;
-		default:
-			GotoXY(0, 4); SetColor(colorRed); cout << "ERROR: Input khong hop le!" << endl;
-			break;
 		}
 	}
 }
@@ -353,15 +393,16 @@ void ThongKeBaoBieu::ShowQuanLyChuyenBay(ThoiGian ngaykhoihanh, std::string sanb
 
 int ThongKeBaoBieu::QuanLyVeTrong()
 {
-	cin.ignore();
-
 	// Nhap ma chuyen bay
 	string machuyenbay;
 	ChuyenBay * chuyenbay;
 
 	while (1) {
 		ClrLine(9); GotoXY(0, 9); SetColor(colorWhite); cout << "Nhap ma chuyen bay: ";
-		SetColor(colorYellow); getline(cin, machuyenbay);
+		SetColor(colorYellow); 
+
+		if (input->GetInput() == -1) return -1;
+		machuyenbay = input->GetResult();
 
 		chuyenbay = KiemTraMaChuyenBay(machuyenbay);
 
@@ -396,27 +437,34 @@ int ThongKeBaoBieu::QuanLyVeTrong()
 	while (1) {
 		SetCursorVisible(1);
 		ClrLine(3); GotoXY(0, 3); SetColor(colorWhite); cout << "-> ";
-		cin >> choose;
+		
+		if (input->GetInput() == -1) return -1;
+		if (!input->isInteger()) {
+			ClrLine(4); GotoXY(0, 4); SetColor(colorRed); cout << "ERROR: Input khong hop le!" << endl;
+		}
+		else {
+			choose = StringToInteger(input->GetResult());
 
-		switch (choose)
-		{
-		case 1:
-			if (ExportQuanLyVeTrong(*chuyenbay, vitri) == 1) {
-				GotoXY(0, 4);
-				SetColor(colorCyan); cout << "INFO: Xuat danh sach thanh cong ";
-				SetColor(colorYellow); cout << "...thongke/DanhSachVeTrong.txt";
+			switch (choose)
+			{
+			case 1:
+				if (ExportQuanLyVeTrong(*chuyenbay, vitri) == 1) {
+					GotoXY(0, 4);
+					SetColor(colorCyan); cout << "INFO: Xuat danh sach thanh cong ";
+					SetColor(colorYellow); cout << "...thongke/DanhSachVeTrong.txt";
+				}
+				else {
+					GotoXY(0, 4);
+					SetColor(colorRed); cout << "ERROR: Loi xuat file!" << endl;
+				}
+				Sleep(2000);
+				return -1;
+			case 2:
+				return -1;
+			default:
+				ClrLine(4); GotoXY(0, 4); SetColor(colorRed); cout << "ERROR: Input khong hop le!" << endl;
+				break;
 			}
-			else {
-				GotoXY(0, 4);
-				SetColor(colorRed); cout << "ERROR: Loi xuat file!" << endl;
-			}
-			Sleep(2000);
-			return -1;
-		case 2:
-			return -1;
-		default:
-			GotoXY(0, 4); SetColor(colorRed); cout << "ERROR: Input khong hop le!" << endl;
-			break;
 		}
 	}
 }
@@ -555,27 +603,34 @@ int ThongKeBaoBieu::SoLuotThucHienChuyenBay()
 	while (1) {
 		SetCursorVisible(1);
 		ClrLine(3); GotoXY(0, 3); SetColor(colorWhite); cout << "-> ";
-		cin >> choose;
+		
+		if (input->GetInput() == -1) return -1;
+		if (!input->isInteger()) {
+			ClrLine(4); GotoXY(0, 4); SetColor(colorRed); cout << "ERROR: Input khong hop le!" << endl;
+		}
+		else {
+			choose = StringToInteger(input->GetResult());
 
-		switch (choose)
-		{
-		case 1:
-			if (ExportSoLuotThucHienChuyenBay(dsmaybay, soluotthuchien) == 1) {
-				GotoXY(0, 4);
-				SetColor(colorCyan); cout << "INFO: Xuat danh sach thanh cong ";
-				SetColor(colorYellow); cout << "...thongke/SoLuotThucHienChuyenBay.txt";
+			switch (choose)
+			{
+			case 1:
+				if (ExportSoLuotThucHienChuyenBay(dsmaybay, soluotthuchien) == 1) {
+					GotoXY(0, 4);
+					SetColor(colorCyan); cout << "INFO: Xuat danh sach thanh cong ";
+					SetColor(colorYellow); cout << "...thongke/SoLuotThucHienChuyenBay.txt";
+				}
+				else {
+					GotoXY(0, 4);
+					SetColor(colorRed); cout << "ERROR: Loi xuat file!" << endl;
+				}
+				Sleep(2000);
+				return -1;
+			case 2:
+				return -1;
+			default:
+				ClrLine(4); GotoXY(0, 4); SetColor(colorRed); cout << "ERROR: Input khong hop le!" << endl;
+				break;
 			}
-			else {
-				GotoXY(0, 4);
-				SetColor(colorRed); cout << "ERROR: Loi xuat file!" << endl;
-			}
-			Sleep(2000);
-			return -1;
-		case 2:
-			return -1;
-		default:
-			GotoXY(0, 4); SetColor(colorRed); cout << "ERROR: Input khong hop le!" << endl;
-			break;
 		}
 	}
 }
