@@ -196,7 +196,7 @@ int QuanLyVe::KiemTraSoCMND(std::string str)
 	if (str.size() == 0)
 		return 0;
 
-	for (int i = 0; i < str.size(); i++) {
+	for (unsigned int i = 0; i < str.size(); i++) {
 		if (!(str[i] >= '0' && str[i] <= '9')) {
 			ClrLine(7); GotoXY(0, 7); SetColor(colorRed); cout << "ERROR: So CMND khong hop le!";
 			return 0;
@@ -279,7 +279,7 @@ bool QuanLyVe::isViTriDayHopLe(std::string str, int soday)
 
 bool QuanLyVe::isViTriDongHopLe(std::string str, int sodong)
 {
-	for (int i = 0; i < str.size(); i++) {
+	for (unsigned int i = 0; i < str.size(); i++) {
 		if (!(str[i] >= '0' && str[i] <= '9'))
 			return 0;
 	}
@@ -308,7 +308,6 @@ int QuanLyVe::Menu()
 		while (1) {
 			int rollBack = 0;
 
-			SetCursorVisible(1);
 			ClrLine(7); GotoXY(0, 7); SetColor(colorWhite); cout << "-> ";
 
 			input->GetInput();
@@ -542,7 +541,6 @@ int QuanLyVe::Add()
 	int choose = -1;
 
 	while (1) {
-		SetCursorVisible(1);
 		ClrLine(linestart + 9); GotoXY(0, linestart + 9); SetColor(colorWhite); cout << "-> ";
 		
 		if (input->GetInput() == -1) return -1;

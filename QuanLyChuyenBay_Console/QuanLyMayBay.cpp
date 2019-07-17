@@ -123,11 +123,6 @@ MayBay * QuanLyMayBay::getBy_SoHieuMayBay(std::string sohieu)
 	return NULL;
 }
 
-int QuanLyMayBay::getSoLuongMayBay()
-{
-	return SoLuongMayBay;
-}
-
 std::vector<MayBay> QuanLyMayBay::getDanhSachMayBay()
 {
 	std::vector<MayBay> danhsach;
@@ -155,7 +150,6 @@ int QuanLyMayBay::Menu()
 		while (1) {
 			int rollBack = 0;
 
-			SetCursorVisible(1);
 			ClrLine(8); GotoXY(0, 8); SetColor(colorWhite); cout << "-> ";
 			input->GetInput();
 
@@ -244,7 +238,7 @@ int QuanLyMayBay::Add()
 		ClrLine(5);
 		GotoXY(10, 5); SetColor(colorYellow);
 		
-		if (input->GetInput() == -1) return -1;
+		if (input->GetInput() == -1) return -1; 
 		maybay->LoaiMayBay = input->GetResult();
 
 		if (!isLoaiHopLe(maybay->LoaiMayBay)) {
@@ -297,7 +291,6 @@ int QuanLyMayBay::Add()
 	int choose = -1;
 
 	while (1) {
-		SetCursorVisible(1);
 		ClrLine(13); GotoXY(0, 13); SetColor(colorWhite); cout << "-> ";
 		
 		if (input->GetInput() == -1) return -1;
@@ -462,7 +455,6 @@ int QuanLyMayBay::Modify()
 				GotoXY(25, 11); SetColor(colorCyan); cout << "2. Tro ve";
 
 				while (1) {
-					SetCursorVisible(1);
 					ClrLine(13); GotoXY(0, 13); SetColor(colorWhite); cout << "-> ";
 					
 					if (input->GetInput() == -1) return -1;

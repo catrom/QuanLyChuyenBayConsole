@@ -27,14 +27,6 @@ std::string LineStandardize(std::string s) {
 	return s;
 }
 
-void SetCursorVisible(bool isVisible)
-{
-	CONSOLE_CURSOR_INFO Info;
-	Info.bVisible = isVisible;
-	Info.dwSize = 20;
-	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &Info);
-}
-
 int InputKey()
 {
 	if (_kbhit())
@@ -138,7 +130,7 @@ std::string Input::GetResult()
 
 bool Input::isInteger()
 {
-	for (int i = 0; i < result.size(); i++) {
+	for (unsigned int i = 0; i < result.size(); i++) {
 		if (!(result[i] >= '0' && result[i] <= '9'))
 			return 0;
 	}
@@ -148,7 +140,7 @@ bool Input::isInteger()
 
 bool Input::isListOfIntegers()
 {
-	for (int i = 0; i < result.size(); i++) {
+	for (unsigned int i = 0; i < result.size(); i++) {
 		if (!(result[i] >= '0' && result[i] <= '9') && result[i] != ' ')
 			return 0;
 	}

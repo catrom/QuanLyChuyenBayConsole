@@ -296,7 +296,6 @@ int QuanLyChuyenBay::Menu()
 		while (1) {
 			int rollBack = 0;
 
-			SetCursorVisible(1);
 			ClrLine(8); GotoXY(0, 8); SetColor(colorWhite); cout << "-> ";
 
 			input->GetInput();
@@ -496,7 +495,6 @@ int QuanLyChuyenBay::Add()
 	int choose = -1;
 
 	while (1) {
-		SetCursorVisible(1);
 		ClrLine(15); GotoXY(0, 15); SetColor(colorWhite); cout << "-> ";
 		
 		if (input->GetInput() == -1) return -1;
@@ -645,7 +643,6 @@ int QuanLyChuyenBay::Modify()
 				GotoXY(25, 11); SetColor(colorCyan); cout << "2. Tro ve";
 
 				while (1) {
-					SetCursorVisible(1);
 					ClrLine(13); GotoXY(0, 13); SetColor(colorWhite); cout << "-> ";
 					
 					if (input->GetInput() == -1) return -1;

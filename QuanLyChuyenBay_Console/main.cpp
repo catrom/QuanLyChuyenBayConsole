@@ -12,14 +12,14 @@ ThongKeBaoBieu * thongke = new ThongKeBaoBieu;
 
 void ShowLogo() {
 	int line = 0, col = 35;
-	GotoXY(col, line); SetColor(colorWhite); cout << "            ______";
-	GotoXY(col, line + 1); SetColor(colorWhite); cout << "            _\ _~-\___";
+	GotoXY(col, line); SetColor(colorWhite);     cout << "            ______";
+	GotoXY(col, line + 1); SetColor(colorWhite); cout << "            _| _--|___";
 	GotoXY(col, line + 2); SetColor(colorWhite); cout << "    =  = ==(____AA____D";
-	GotoXY(col, line + 3); SetColor(colorWhite); cout << "                \_____\___________________,-~~~~~~~`-.._";
-	GotoXY(col, line + 4); SetColor(colorWhite); cout << "                /     o O o o o o O O o o o o o o O o  |\_";
-	GotoXY(col, line + 5); SetColor(colorWhite); cout << "                `~-.__        ___..----..                  )";
-	GotoXY(col, line + 6); SetColor(colorWhite); cout << "                      `---~~\___________/------------`````";
-	GotoXY(col, line + 7); SetColor(colorWhite); cout << "                      =  ===(_________D";
+	GotoXY(col, line + 3); SetColor(colorWhite); cout << "                |_____|___________________,--```````-.._";
+	GotoXY(col, line + 4); SetColor(colorWhite); cout << "                /     o O o o o o O O o o o o o o O o  ||_";
+	GotoXY(col, line + 5); SetColor(colorWhite); cout << "                `--.__        ___..----..                  )";
+	GotoXY(col, line + 6); SetColor(colorWhite); cout << "                      `-----|___________/------------`````";
+	GotoXY(col, line + 7); SetColor(colorWhite); cout << "                      =  ===|_________D";
 }
 
 void MainMenu() {
@@ -39,7 +39,6 @@ void MainMenu() {
 		while (1) {
 			int rollBack = 0;
 
-			SetCursorVisible(1);
 			ClrLine(8); GotoXY(0, 8); SetColor(colorWhite); cout << "-> ";
 			input->GetInput();
 
@@ -108,6 +107,9 @@ int main() {
 		Sleep(2000);
 	}
 
+
+
+	
 
 	MainMenu();
 	return 1;

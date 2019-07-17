@@ -195,18 +195,3 @@ void QuanLyHanhKhach::Insert(HanhKhach x)
 {
 	insert(x, root);
 }
-
-void QuanLyHanhKhach::Out()
-{
-	NLR(root);
-}
-
-void QuanLyHanhKhach::NLR(node_HanhKhach * t)
-{
-	if (t == NULL)
-		return;
-
-	std::cout << t->data.SoCMND << " ";
-	NLR(t->left);
-	NLR(t->right);
-}

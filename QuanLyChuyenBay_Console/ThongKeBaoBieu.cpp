@@ -38,7 +38,6 @@ int ThongKeBaoBieu::Menu()
 		while (1) {
 			int rollBack = 0;
 
-			SetCursorVisible(1);
 			ClrLine(8); GotoXY(0, 8); SetColor(colorWhite); cout << "-> ";
 			
 			input->GetInput();
@@ -109,7 +108,7 @@ int ThongKeBaoBieu::QuanLyHanhKhach()
 	//  lay danh sach hanh khach
 	std::vector<HanhKhach> danhsachhanhkhach;
 	HanhKhach * hanhkhach;
-	for (int i = 0; i < danhsachve.size(); i++) {
+	for (unsigned int i = 0; i < danhsachve.size(); i++) {
 		hanhkhach = QuanLyHanhKhach::getinstance()->Find(danhsachve[i].SoCMND);
 		danhsachhanhkhach.push_back(*hanhkhach);
 	}
@@ -125,7 +124,6 @@ int ThongKeBaoBieu::QuanLyHanhKhach()
 	int choose = -1;
 
 	while (1) {
-		SetCursorVisible(1);
 		ClrLine(3); GotoXY(0, 3); SetColor(colorWhite); cout << "-> ";
 		
 		if (input->GetInput() == -1) return -1;
@@ -177,7 +175,7 @@ int ThongKeBaoBieu::ExportQuanLyHanhKhach(ChuyenBay chuyenbay, std::vector<Ve> d
 
 	out << "STT\t" << "SOVE\t" << "SO CMND\t\t" << "HOTEN\t\t\t" << "PHAI" << endl;
 
-	for (int i = 0; i < dsve.size(); i++) {
+	for (unsigned int i = 0; i < dsve.size(); i++) {
 		out << i + 1 << '\t';
 		out << char(dsve[i].ViTriDay - 1 + 'A') << dsve[i].ViTriHang << '\t';
 		out << dshanhkhach[i].SoCMND << '\t';
@@ -205,7 +203,7 @@ void ThongKeBaoBieu::ShowQuanLyHanhKhach(ChuyenBay chuyenbay, std::vector<Ve> ds
 	for (int i = 0; i < 90; i++) { GotoXY(i + 5, lineStart + 3); putchar(196); }
 
 	// print data
-	for (int i = 0; i < dsve.size(); i++) {
+	for (unsigned int i = 0; i < dsve.size(); i++) {
 		GotoXY(5, lineStart + 4 + 2 * i);
 		cout << "|        |                 |                 |                              |            |";
 
@@ -271,7 +269,7 @@ int ThongKeBaoBieu::QuanLyChuyenBay()
 	vector<ChuyenBay> danhsachchuyenbay = QuanLyChuyenBay::getinstance()->getAll(ngaykhoihanh, LineStandardize(sanbayden));
 
 	// lọc ra còn vé
-	for (int i = 0; i < danhsachchuyenbay.size(); i++) {
+	for (unsigned int i = 0; i < danhsachchuyenbay.size(); i++) {
 		MayBay * maybay = QuanLyMayBay::getinstance()->getBy_SoHieuMayBay(danhsachchuyenbay[i].SoHieuMayBay);
 		int soLuongVeHienTai = QuanLyVe::getinstance()->getAll(danhsachchuyenbay[i].MaChuyenBay).size();
 
@@ -292,7 +290,6 @@ int ThongKeBaoBieu::QuanLyChuyenBay()
 	int choose = -1;
 
 	while (1) {
-		SetCursorVisible(1);
 		ClrLine(3); GotoXY(0, 3); SetColor(colorWhite); cout << "-> ";
 		
 		if (input->GetInput() == -1) return -1;
@@ -342,7 +339,7 @@ int ThongKeBaoBieu::ExportQuanLyChuyenBay(ThoiGian ngaykhoihanh, std::string san
 
 	out << "STT\t" << "MA CHUYEN BAY\t" << "SO HIEU MAY BAY\t" << "GIO KHOI HANH\t" << "SO LUONG VE TRONG" << endl;
 
-	for (int i = 0; i < dschuyenbay.size(); i++) {
+	for (unsigned int i = 0; i < dschuyenbay.size(); i++) {
 		MayBay * maybay = QuanLyMayBay::getinstance()->getBy_SoHieuMayBay(dschuyenbay[i].SoHieuMayBay);
 		int soLuongVeHienTai = QuanLyVe::getinstance()->getAll(dschuyenbay[i].MaChuyenBay).size();
 		int soLuongVeConTrong = maybay->SoDay * maybay->SoDong - soLuongVeHienTai;
@@ -374,7 +371,7 @@ void ThongKeBaoBieu::ShowQuanLyChuyenBay(ThoiGian ngaykhoihanh, std::string sanb
 	for (int i = 0; i < 90; i++) { GotoXY(i + 5, lineStart + 3); putchar(196); }
 
 	// print data
-	for (int i = 0; i < dschuyenbay.size(); i++) {
+	for (unsigned int i = 0; i < dschuyenbay.size(); i++) {
 		MayBay * maybay = QuanLyMayBay::getinstance()->getBy_SoHieuMayBay(dschuyenbay[i].SoHieuMayBay);
 		int soLuongVeHienTai = QuanLyVe::getinstance()->getAll(dschuyenbay[i].MaChuyenBay).size();
 		int soLuongVeConTrong = maybay->SoDay * maybay->SoDong - soLuongVeHienTai;
@@ -420,7 +417,7 @@ int ThongKeBaoBieu::QuanLyVeTrong()
 	std::vector<std::vector<bool>> vitri(maybay->SoDong, std::vector<bool>(maybay->SoDay, false));
 
 	// true: đã đặt, false: chưa đặt
-	for (int i = 0; i < danhsachve.size(); i++) {
+	for (unsigned int i = 0; i < danhsachve.size(); i++) {
 		vitri[danhsachve[i].ViTriHang - 1][danhsachve[i].ViTriDay - 1] = true;
 	}
 
@@ -435,7 +432,6 @@ int ThongKeBaoBieu::QuanLyVeTrong()
 	int choose = -1;
 
 	while (1) {
-		SetCursorVisible(1);
 		ClrLine(3); GotoXY(0, 3); SetColor(colorWhite); cout << "-> ";
 		
 		if (input->GetInput() == -1) return -1;
@@ -566,9 +562,9 @@ int ThongKeBaoBieu::SoLuotThucHienChuyenBay()
 	std::vector<int> soluotthuchien(dsmaybay.size());
 
 	// counting
-	for (int i = 0; i < dsmaybay.size(); i++) {
+	for (unsigned int i = 0; i < dsmaybay.size(); i++) {
 		int cnt = 0;
-		for (int j = 0; j < dschuyenbay.size(); j++) {
+		for (unsigned int j = 0; j < dschuyenbay.size(); j++) {
 			if (dsmaybay[i].SoHieuMayBay == dschuyenbay[j].SoHieuMayBay)
 				cnt++;
 		}
@@ -576,8 +572,8 @@ int ThongKeBaoBieu::SoLuotThucHienChuyenBay()
 	}
 
 	// sorting
-	for (int i = 0; i < soluotthuchien.size(); i++) {
-		for (int j = i + 1; j < soluotthuchien.size(); j++) {
+	for (unsigned int i = 0; i < soluotthuchien.size(); i++) {
+		for (unsigned int j = i + 1; j < soluotthuchien.size(); j++) {
 			if (soluotthuchien[i] < soluotthuchien[j]) {
 				int itemp = soluotthuchien[i];
 				soluotthuchien[i] = soluotthuchien[j];
@@ -601,7 +597,6 @@ int ThongKeBaoBieu::SoLuotThucHienChuyenBay()
 	int choose = -1;
 
 	while (1) {
-		SetCursorVisible(1);
 		ClrLine(3); GotoXY(0, 3); SetColor(colorWhite); cout << "-> ";
 		
 		if (input->GetInput() == -1) return -1;
@@ -649,7 +644,7 @@ int ThongKeBaoBieu::ExportSoLuotThucHienChuyenBay(std::vector<MayBay> dsmaybay, 
 
 	out << "STT\t" << "SO HIEU MAY BAY\t" << "LOAI MAY BAY\t" << "SO LUOT THUC HIEN CHUYEN BAY" << endl;
 
-	for (int i = 0; i < dsmaybay.size(); i++) {
+	for (unsigned int i = 0; i < dsmaybay.size(); i++) {
 		out << i + 1 << "\t";	// STT;
 		out << dsmaybay[i].SoHieuMayBay << "\t\t";
 		out << dsmaybay[i].LoaiMayBay << "\t\t";
@@ -674,7 +669,7 @@ void ThongKeBaoBieu::ShowSoLuotThucHienChuyenBay(std::vector<MayBay> dsmaybay, s
 	for (int i = 0; i < 90; i++) { GotoXY(i + 5, lineStart + 3); putchar(196); }
 
 	// print data
-	for (int i = 0; i < dsmaybay.size(); i++) {
+	for (unsigned int i = 0; i < dsmaybay.size(); i++) {
 		GotoXY(5, lineStart + 4 + 2 * i);
 		cout << "|        |                        |                       |                              |";
 
