@@ -1,8 +1,7 @@
 ﻿#pragma once
 #include "Utilities.h"
 
-struct MayBay
-{
+struct MayBay  {
 	std::string SoHieuMayBay;
 	std::string LoaiMayBay;
 	int SoDay;
